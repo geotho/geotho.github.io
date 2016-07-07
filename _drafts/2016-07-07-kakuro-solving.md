@@ -27,6 +27,10 @@ Observe that the only way to sum to 17 with two numbers is 9+8. Observe that the
 
 Intersecting the possible values from the rows and the columns can reduce the size of the domain of the cell, potentially to a single value.
 
-In the solver, I implement the intersection by converting the row domain and the column domain to a bitmask and using a bitwise AND on them. 
+In the solver, I implement the intersection by converting the row domain and the column domain to a bitmask and using a bitwise AND on them. I'm pretty sure this is a premature optimisation (and probably isn't even be an optimisation at all) but it's a nifty trick.
+
+### Adding rows and subtracting columns
+
+The value 
 
  
