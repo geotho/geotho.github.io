@@ -39,3 +39,5 @@ In the solver, I implement the intersection by converting the row domain and the
 ## Adding rows and subtracting columns
 
 Some values in kakuros can be uniquely determined using graph methods.
+![Uniquely determinable cell]({{site.baseurl}}/_drafts/Screenshot 2016-07-25 at 22.09.32.png)
+
