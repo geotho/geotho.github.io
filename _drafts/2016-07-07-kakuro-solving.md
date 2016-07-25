@@ -10,12 +10,14 @@ A Kakuro is a Japanese number puzzle with the following rules:
 
 I've written a Kakuro solver which you can play around with here: [http://geotho.github.io/kakuro-solver/](http://geotho.github.io/kakuro-solver/)
 
-## Not very useful solutions
+Below I describe some methods I tried to solve the Kakuros, some more successful that others.
 
-### Brute-force
-Naively, a 12x10 kakuro has ~9^70 possible assignments. This is far too many to search exhaustively.
+# Some things I tried that didn't work well
 
-### Constraint satisfaction algorithms
+## Brute-force
+Naively, a 12x10 kakuro has ~9^70 possible assignments. This is far too many to search exhaustively in a reasonable amount of time.
+
+## Constraint satisfaction algorithms
 
 Kakuros, like Sudokus, are [constraint satisfaction problems](https://en.wikipedia.org/wiki/Constraint_satisfaction_problem). The set of constraints one could create are firstly that numbers that share a row or column do not equal each other and that secondly the sum of the numbers in the row or column adds up to the total. The set of constraints therefore grows as O(n^2) where n is the number of cells in the Kakuro. CSP solving algorithms typicially rely on unary or binary constraints, whereas kakuro solving requires up to 9-ary constraints (e.g. A+B+C=6). One can rewrite any n-ary constraint into n x n! binary constraints but this factorial growth means CSP solvers are not particularly useful for this problem.
 
