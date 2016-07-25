@@ -38,4 +38,4 @@ In the solver, I implement the intersection by converting the row domain and the
 
 ## Adding rows and subtracting columns
 
-The value
+Some values in kakuros can be uniquely determined using graph methods.
