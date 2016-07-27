@@ -10,7 +10,7 @@ A Kakuro is a Japanese number puzzle with the following rules:
 
 I've written a Kakuro solver which you can play around with here: [http://geotho.github.io/kakuro-solver/](http://geotho.github.io/kakuro-solver/)
 
-If you are interested in seeing the solving code, you can do so here: 
+If you are interested in seeing the solving code, you can do so [here](https://github.com/geotho/kakuro-solver/blob/master/src/js/kakuro.coffee).
 
 Below I describe some methods I tried to solve the Kakuros, some more successful that others.
 
