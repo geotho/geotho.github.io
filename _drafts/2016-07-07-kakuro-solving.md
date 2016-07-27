@@ -10,6 +10,8 @@ A Kakuro is a Japanese number puzzle with the following rules:
 
 I've written a Kakuro solver which you can play around with here: [http://geotho.github.io/kakuro-solver/](http://geotho.github.io/kakuro-solver/)
 
+If you are interested in seeing the solving code, you can do so here: 
+
 Below I describe some methods I tried to solve the Kakuros, some more successful that others.
 
 # Some things I tried that didn't work well
@@ -48,3 +50,5 @@ Then, to test whether a cell can be uniquely determined, remove its vertex from 
 ## Reducing possible values by contradiction
 
 The objective of the two previous methods was to calculate the value of the cell. The objective of this method is to reduce the domain of possible values for a cell.
+
+It works in a similar way to a proof by contradiction: first assume the cell has a particular value, then demonstrate that leaves a different cell with no possible remaining values. The implementation here gradually increases the depths to which it will look for a contradiction.
