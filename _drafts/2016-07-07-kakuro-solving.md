@@ -36,7 +36,7 @@ The only way to sum to 17 with two numbers is 9+8. The only way to sum to 16 wit
 
 Intersecting the possible values from the rows and the columns can reduce the size of the domain of the cell, potentially to a single value.
 
-In the solver, I implement the intersection by converting the row domain and the column domain to a bitmask and using a bitwise AND on them. I'm pretty sure this is a premature optimisation (and probably isn't even be an optimisation at all) but it's a nifty trick.
+The intersection can be achieved by converting the row domain and the column domain to a bitmask and using a bitwise AND on them. I'm pretty sure this is a premature optimisation (and probably isn't even an optimisation at all).
 
 ## Adding rows and subtracting columns
 
@@ -52,3 +52,6 @@ Then, to test whether a cell can be uniquely determined, remove its vertex from 
 The objective of the two previous methods was to calculate the value of the cell. The objective of this method is to reduce the domain of possible values for a cell.
 
 It works in a similar way to a proof by contradiction: first assume the cell has a particular value, then demonstrate that leaves a different cell with no possible remaining values. The implementation here gradually increases the depths to which it will look for a contradiction.
+
+
+I hope this was useful. Please let me know if you have any questions or comments.
