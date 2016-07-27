@@ -41,4 +41,10 @@ In the solver, I implement the intersection by converting the row domain and the
 Some values in kakuros can be uniquely determined using graph methods, such as the cell marked X in the image below.
 ![Uniquely determinable cell]({{site.baseurl}}/_drafts/Screenshot 2016-07-25 at 22.09.32.png)
 
+Considering a graph where all the vertices are cells in the Kakuro and each edge represents the relation "shares a row or column with". 
 
+Then, to test whether a cell can be uniquely determined, remove its vertex from the graph and all the edges that connect to it. Then if the graph is no longer connected (can use a breadth-first search for this), the cell can be uniquely determined. Calculate its value by taking one of the now disconnected subgraphs (preferably the smaller one) and adding the value of its column or row, substracting all the values of its intersecting rows or columns and continuing recursively until exhausted. This is essentially using algebraic substitution.
+
+## Reducing possible values by contradiction
+
+The objective of the two previous methods was to calculate the value of the cell. The objective of this method is to reduce the domain of possible values for a cell.
