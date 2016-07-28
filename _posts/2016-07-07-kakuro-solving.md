@@ -1,5 +1,8 @@
 ---
-published: false
+layout: post
+title:  "Writing a Kakuro solver in CoffeeScript"
+date:   2016-07-07 13:00:00 +0000
+categories: code
 ---
 # Kakuros
 
