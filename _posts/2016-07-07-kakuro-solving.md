@@ -44,6 +44,7 @@ The intersection can be achieved by converting the row domain and the column dom
 ## Adding rows and subtracting columns
 
 Some values in kakuros can be uniquely determined using graph methods, such as the cell marked X in the image below.
+
 ![Uniquely determinable cell]({{site.baseurl}}/images/small_kakuro.png)
 
 Considering a graph where all the vertices are cells in the Kakuro and each edge represents the relation "shares a row or column with".
