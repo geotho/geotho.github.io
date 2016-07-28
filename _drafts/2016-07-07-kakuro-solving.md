@@ -54,4 +54,4 @@ The objective of the two previous methods was to calculate the value of the cell
 It works in a similar way to a proof by contradiction: first assume the cell has a particular value, then demonstrate that leaves a different cell with no possible remaining values. The implementation here gradually increases the depths to which it will look for a contradiction.
 
 
-I hope this was useful. Please let me know if you have any questions or comments.
+Thanks for reading! I hope this was useful. Please let me know if you have any questions or comments.
