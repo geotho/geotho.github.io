@@ -304,6 +304,6 @@ We've also shown that our theoretical run-times match approximately against
 empirical measurements, and the complexity of the quadtree-esque algorithm had
 a complexity of O(N) rather than O(log²N) as I'd originally guessed.
 
-Thanks to my friends and collegues who have had to listen to me ramble on about
+Thanks to my friends and colleagues who have had to listen to me ramble on about
 counting zeroes and ones in an array for far too long now, with not even a hint
 of "why would you ever want to do this."
