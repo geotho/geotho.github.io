@@ -5,7 +5,7 @@ date: "2016-08-03 14:47"
 categories: ux
 ---
 
-If you have various promotional email list to unsubscribe from, put the 'unsubscribe from all' button at the top of the settings page.
+Put the 'unsubscribe from all emails' button at the top of the email settings page.
 
 I hope this screenshot, courtesy of the Medium unsubscription page, goes some way to explaining why:
 
