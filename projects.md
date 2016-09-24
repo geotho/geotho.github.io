@@ -37,6 +37,7 @@ How bicycle thieves trained in the art of gradient descent could calculate the o
 [GitHub](https://github.com/geotho/ascii-graph)
 
 A Go library that takes graphs written as strings like:
+
 ```
 1   2
  \ /
@@ -46,6 +47,7 @@ A Go library that takes graphs written as strings like:
 ```
 
 and converts them to Go code like:
+
 ```go
 g.AddEdge("1", "5")
 g.AddEdge("2", "5")
