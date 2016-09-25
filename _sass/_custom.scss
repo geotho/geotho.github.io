@@ -25,10 +25,16 @@
 
 .site-header {
   text-transform: uppercase;
+
+  .site-title:hover {
+    text-decoration: none;
+  }
 }
 
 .page-link {
   padding-bottom: 3px;
+  font-weight: 500;
+  letter-spacing: 1px;
 
   &:hover {
     text-decoration: none;
@@ -37,4 +43,12 @@
 
 .page-link.active {
   border-bottom: 2px solid $text-color;
+}
+
+.post-meta {
+  font-style: italic;
+}
+
+.post-list > li {
+  margin-bottom: 3rem;
 }
