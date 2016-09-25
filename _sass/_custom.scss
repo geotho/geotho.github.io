@@ -7,8 +7,34 @@
   background: #eee;
 }
 
-.post-content img {
-  border: 1px solid #e3e1de;
-  margin: 0 auto;
-  display: block;
+.post-content {
+  img {
+    border: 1px solid #e3e1de;
+    margin: 0 auto;
+    display: block;
+  }
+
+  h3 {
+    margin-top: 4rem;
+  }
+
+  h4 {
+    margin-top: 2rem;
+  }
+}
+
+.site-header {
+  text-transform: uppercase;
+}
+
+.page-link {
+  padding-bottom: 3px;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.page-link.active {
+  border-bottom: 2px solid $text-color;
 }

@@ -4,7 +4,7 @@ title: Projects
 permalink: /projects/
 ---
 
-Personal projects I have done, presented most recent first:
+Personal projects I have done, presented most recent first.
 
 ### September
 
