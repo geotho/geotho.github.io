@@ -6,6 +6,15 @@ permalink: /projects/
 
 Personal projects I have done, presented most recent first.
 
+### December
+
+#### struct-tag-me
+
+[Demo](https://geotho.github.io/struct-tag-me) ·
+[GitHub](https://github.com/geotho/struct-tag-me)
+
+A small utility to add camelCase JSON struct tags to Go structs.
+
 ### September
 
 #### super-strava-boy
