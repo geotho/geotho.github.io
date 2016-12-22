@@ -8,6 +8,12 @@ Personal projects I have done, presented most recent first.
 
 ### December
 
+#### cmdotp
+
+[GitHub](https://github.com/geotho/cmdotp)
+
+Like Google Authenticator, but for your laptop. Use at your own risk.
+
 #### struct-tag-me
 
 [Demo](https://geotho.github.io/struct-tag-me) ·
