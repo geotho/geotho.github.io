@@ -1,6 +1,6 @@
 ---
 layout: "post"
-title: "On Mindcrime"
+title: "On mindcrime"
 date: "2017-01-16 22:07"
 ---
 
