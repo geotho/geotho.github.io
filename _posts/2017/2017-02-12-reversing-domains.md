@@ -13,11 +13,13 @@ A classic whiteboard coding question is as follows:
 
 So "the quick brown fox" should become "fox brown quick the".
 
-This is the same problem as reversing domain components for Google BigTable keys. Given some row keys that should contain domains like "foo.example.co.uk" and "bar.example.co.uk", it is wise to store them in component reverse order e.g. as "uk.co.example.foo" and "uk.co.example.bar". That way, you can make use of BigTable’s prefix scanning to find all entries related to "*.example.co.uk". (Our actual use case was to reverse emails so that "hello.world@example.co.uk" became "uk.co.example@hello.world", for the same reason).
+This is the same problem as reversing domain components for Google BigTable keys. Given some row keys that should contain domains like "foo.example.co.uk" and "bar.example.co.uk", it is wise to store them in component reverse order e.g. as "uk.co.example.foo" and "uk.co.example.bar".
 
-### So how might we write an algorithm to do this?
+That way, you can make use of BigTable’s prefix scanning to find all entries related to "*.example.co.uk". (Our actual use case was to reverse emails so that "hello.world@example.co.uk" became "uk.co.example@hello.world", for the same reason).
 
-Well, one method might be to split the string on dots, reverse that resulting array and then join it back on dots:
+### An initial approach
+
+One method might be to split the string on dots, reverse that resulting array and then join it back on dots:
 
 ```go
 func ReverseDomain(domain string) string {
@@ -58,6 +60,7 @@ which means it takes ~400 nanoseconds to reverse `foo.bar.baz.co.uk` on my machi
 We can use a common trick to avoid allocating slices of strings (aka slices of slices of bytes): reverse the entire string, then unreverse each component separately.
 
 So you do the following steps:
+
 ```
 foo.bar.baz.co.uk
 ku.oc.zab.rab.oof (by reversing the whole string)
@@ -125,7 +128,35 @@ We can get some evidence for this theory by running our tests with escape analys
 ./domainreverse.go:14: ReverseDomainFaster ([]byte)(domain) does not escape
 ```
 
-As a final note, if we could avoid the allocation by mutating the original domain instead, our code should go much faster:
+You might also want to write some table-driven tests so make sure your algorithm is working as intended:
+
+```go
+func TestReverseDomain(t *testing.T) {
+	tests := []struct {
+		input, want string
+	}{
+		{"test", "test"},
+		{"foo.bar.baz.co.uk", "uk.co.baz.bar.foo"},
+		{"foo.bar.baz.co.uk.", ".uk.co.baz.bar.foo"},
+		{".....", "....."},
+		{"", ""},
+	}
+
+	for _, tt := range tests {
+		if got := ReverseDomain(tt.input); got != tt.want {
+			t.Errorf("ReverseDomain actual=%s, expected=%s", got, tt.want)
+		}
+
+		if got := ReverseDomainFaster(tt.input); got != tt.want {
+			t.Errorf("ReverseDomainFaster actual=%s, expected=%s", got, tt.want)
+		}
+	}
+}
+```
+
+### Can it go even faster?
+
+If we could avoid the allocation by mutating the original domain instead, our code should go much faster:
 
 ```go
 func ReverseDomainInPlace(dom []byte) {
@@ -146,6 +177,7 @@ func ReverseDomainInPlace(dom []byte) {
 Note that to make it clear that the function mutates its arguments, I choose not to return anything.
 
 If you write one final benchmark for this in-place version:
+
 ```go
 func BenchmarkReverseDomainFasterInPlace(b *testing.B) {
 	b.ReportAllocs()
@@ -157,6 +189,7 @@ func BenchmarkReverseDomainFasterInPlace(b *testing.B) {
 ```
 
 We can see that it is a lot faster than our original function and does no allocations:
+
 ```
 BenchmarkReverseDomain-8                3000000   404 ns/op    144 B/op    3 allocs/op
 BenchmarkReverseDomainFaster-8         10000000   133 ns/op     32 B/op    1 allocs/op
