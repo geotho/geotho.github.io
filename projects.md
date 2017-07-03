@@ -4,9 +4,31 @@ title: Projects
 permalink: /projects/
 ---
 
-Personal projects I have done, presented most recent first.
+## Highlights reel
 
-### December
+#### Want to see how I use benchmarking and escape analysis to shave nanoseconds off a Go algorithm?
+
+Have a look at [reversing domains for BigTable](http://geotho.github.io/2017/02/12/reversing-domains.html).
+
+#### Want to see a personal project I built and finished?
+
+Have a look at my Kakuro Solver:
+
+[Writeup](http://geotho.github.io/code/2016/07/07/kakuro-solving.html) ·
+[Demo](http://geotho.github.io/kakuro-solver) ·
+[GitHub](https://github.com/geotho/kakuro-solver)
+
+Kakuros are like Sudokus but are more entertaining. This JavaScript app solves them using different tricks.
+
+[I'm working on OCRing them, entirely in JavaScript, here.](https://geotho.github.io/kakuro-ocr)
+
+#### Want to see how a bike thief trained in gradient descent could steal your bicycle?
+
+Have a look at [Strava stealing](http://geotho.github.io/2016/09/04/recovering-privacy-zones-strava.html).
+
+## The rest
+
+Here are some more personal projects I have done, presented most recent first.
 
 #### cmdotp
 
@@ -21,8 +43,6 @@ Like Google Authenticator, but for your laptop. Use at your own risk.
 
 A small utility to add camelCase JSON struct tags to Go structs.
 
-### September
-
 #### super-strava-boy
 
 [Demo](https://geotho.github.io/super-strava-boy) ·
@@ -36,8 +56,6 @@ A Super-Meat-Boy x Strava commute visualiser using the Strava API, Google Maps a
 [GitHub](https://github.com/geotho/protobuf-to-typescript)
 
 Converting Protocol buffer .proto files to TypeScript .d.ts files in browser. Essentially a more manual and error-prone `protoc`.
-
-### August
 
 #### strava-stealer
 
@@ -71,8 +89,6 @@ g.AddEdge("4", "5")
 ```
 
 Originally motivated by confusing unit test code for graph algorithms.
-
-### July
 
 #### kakuro-solver
 
