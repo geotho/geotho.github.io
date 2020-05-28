@@ -1,0 +1,182 @@
+<!doctype html><html lang=en-us><title>Analysing runtime of algorithms | George Thomas</title><meta charset=utf-8><meta name=generator content="Hugo 0.71.1"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=https://geotho.github.iocss/index.css><link rel=stylesheet href=https://geotho.github.iocss/classes.css><link rel=canonical href=https://geotho.github.io/post/2016-07-31-analysing-runtime-algorithms/><link rel=alternate type=application/rss+xml href title="George Thomas"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css integrity=sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body);></script><body><header class=icons><a href=https://geotho.github.io>George Thomas</a><nav><a href=/about/>About</a>
+<a href=/projects/>Projects</a></nav></header><article><header><a href=https://geotho.github.io/categories/code/>CODE</a><h1>Analysing runtime of algorithms</h1><time datetime=2016-07-31T21:44:00Z>July 31, 2016</time></header><p>In this post, I consider four different algorithms that solve the same problem.</p><h2 id=the-problem>The problem</h2><p>Imagine a square 2D array that contains only zeroes and ones. Each row and column is
+sorted in ascending order. Count the number of zeroes.</p><pre><code>0 0 0 0 0 0 0 0 0 1
+0 0 0 0 0 0 0 0 1 1
+0 0 0 0 0 0 1 1 1 1
+0 0 0 1 1 1 1 1 1 1
+0 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+</code></pre><p>I found this problem on <a href="https://careercup.com/question?id=5767203879124992">CareerCup</a>
+and was drawn initially to the uncertainty about the fastest possible algorithm.</p><p>The four algorithms I&rsquo;m going to analyse are:</p><ul><li>linear counting</li><li>binary search per row</li><li>2D binary search / quadtree</li><li>saddleback search</li></ul><h3 id=linear-counting>Linear counting</h3><p>The simplest of the four algorithms. Iterate over the array, incrementing a counter
+if we see a zero (note here and below I use booleans rather than 0s and 1s.)</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Count</span>(<span style=color:#a6e22e>arr</span> [][]<span style=color:#66d9ef>bool</span>) <span style=color:#66d9ef>int</span> {
+  <span style=color:#a6e22e>total</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>
+  <span style=color:#66d9ef>for</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>row</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>arr</span> {
+    <span style=color:#66d9ef>for</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>v</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>row</span> {
+      <span style=color:#75715e>// if we hit a true, we can stop with this row
+</span><span style=color:#75715e></span>      <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>v</span> {
+        <span style=color:#66d9ef>break</span>
+      }
+      <span style=color:#a6e22e>total</span><span style=color:#f92672>++</span>
+    }
+  }
+  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>total</span>
+}
+</code></pre></div><p>The runtime complexity of performing a linear count a N*N 2D array is O(N²), with
+O(1) memory requirement.</p><h3 id=binary-search-per-row>Binary search per row</h3><p>To speed up our counting, we can perform a binary search on each row to find the
+last zero. If we know the index of the last zero, we know how many there are in
+each row.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Count</span>(<span style=color:#a6e22e>arr</span> [][]<span style=color:#66d9ef>bool</span>) <span style=color:#66d9ef>int</span> {
+  <span style=color:#a6e22e>total</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>
+  <span style=color:#a6e22e>zeroes</span> <span style=color:#f92672>:=</span> len(<span style=color:#a6e22e>arr</span>)
+  <span style=color:#66d9ef>for</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>row</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>arr</span> {
+    <span style=color:#75715e>// Limit the row by the previous number of zeroes
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>zeroes</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>CountZeroes</span>(<span style=color:#a6e22e>row</span>[:<span style=color:#a6e22e>zeroes</span>])
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>zeroes</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> {
+      <span style=color:#66d9ef>break</span>
+    }
+    <span style=color:#a6e22e>total</span> <span style=color:#f92672>+=</span> <span style=color:#a6e22e>zeroes</span>
+  }
+  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>total</span>
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>CountZeroes</span>(<span style=color:#a6e22e>row</span> []<span style=color:#66d9ef>bool</span>) <span style=color:#66d9ef>int</span> {
+  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>row</span>[<span style=color:#ae81ff>0</span>] {
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>
+  }
+
+  <span style=color:#66d9ef>if</span> !<span style=color:#a6e22e>row</span>[len(<span style=color:#a6e22e>row</span>)<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>] {
+    <span style=color:#66d9ef>return</span> len(<span style=color:#a6e22e>row</span>)
+  }
+
+  <span style=color:#a6e22e>hi</span> <span style=color:#f92672>:=</span> len(<span style=color:#a6e22e>row</span>)
+  <span style=color:#a6e22e>lo</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>
+
+  <span style=color:#66d9ef>for</span> {
+    <span style=color:#a6e22e>mid</span> <span style=color:#f92672>:=</span> (<span style=color:#a6e22e>hi</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>lo</span>) <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>
+    <span style=color:#66d9ef>if</span> !<span style=color:#a6e22e>row</span>[<span style=color:#a6e22e>mid</span>] {
+      <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>row</span>[<span style=color:#a6e22e>mid</span><span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>] {
+        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>mid</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+      }
+      <span style=color:#a6e22e>lo</span> = <span style=color:#a6e22e>mid</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+      <span style=color:#66d9ef>continue</span>
+    }
+    <span style=color:#a6e22e>hi</span> = <span style=color:#a6e22e>mid</span>
+  }
+}
+</code></pre></div><p>The runtime complexity of performing a binary search on a row of N numbers is
+O(logN). We have to do one binary search for each of the N rows, so the total
+complexity is O(NlogN), again with O(1) memory requirement.</p><h3 id=quadtree>Quadtree</h3><p>A quadtree recursively divides a space into quadrants. Quadtrees can be used
+to count zeroes in the following way:</p><ol><li><p>Pick the middle row in the array.</p></li><li><p>Find the last zero in this row. Call this point m.</p></li><li><p>Divide the array into four:</p><ol><li>The quadrant north-west of m is full only of zeroes. Add this to a total.</li><li>The quadrant south-east of m is full only of ones. Ignore this completely.</li><li>The north-east and south-west quadrants contain zeroes and ones. Recurse into each of these quadrants.</li></ol></li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>point</span> <span style=color:#66d9ef>struct</span> {<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>y</span> <span style=color:#66d9ef>int</span>}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Count</span>(<span style=color:#a6e22e>arr</span> [][]<span style=color:#66d9ef>bool</span>) <span style=color:#66d9ef>int</span> {
+  <span style=color:#a6e22e>n</span> <span style=color:#f92672>:=</span> len(<span style=color:#a6e22e>arr</span>)
+  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>countR</span>(<span style=color:#a6e22e>arr</span>, <span style=color:#a6e22e>point</span>{<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>}, <span style=color:#a6e22e>point</span>{<span style=color:#a6e22e>n</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>n</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>})
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>countR</span>(<span style=color:#a6e22e>arr</span> [][]<span style=color:#66d9ef>bool</span>, <span style=color:#a6e22e>topLeft</span>, <span style=color:#a6e22e>bottomRight</span> <span style=color:#a6e22e>point</span>) <span style=color:#66d9ef>int</span> {
+  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>x</span> &lt; <span style=color:#ae81ff>0</span> <span style=color:#f92672>||</span> <span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>y</span> &lt; <span style=color:#ae81ff>0</span> {
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>
+  }
+
+  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>n</span> <span style=color:#f92672>:=</span> len(<span style=color:#a6e22e>arr</span>); <span style=color:#a6e22e>bottomRight</span>.<span style=color:#a6e22e>x</span> &gt; <span style=color:#a6e22e>n</span> <span style=color:#f92672>||</span> <span style=color:#a6e22e>bottomRight</span>.<span style=color:#a6e22e>y</span> &gt; <span style=color:#a6e22e>n</span> {
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>
+  }
+
+  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>bottomRight</span>.<span style=color:#a6e22e>x</span> &lt; <span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>x</span> <span style=color:#f92672>||</span> <span style=color:#a6e22e>bottomRight</span>.<span style=color:#a6e22e>y</span> &lt; <span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>y</span> {
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>
+  }
+
+  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>topLeft</span> <span style=color:#f92672>==</span> <span style=color:#a6e22e>bottomRight</span> {
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>arr</span>[<span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>y</span>][<span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>x</span>] {
+      <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>
+    }
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>1</span>
+  }
+
+  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>==</span> <span style=color:#a6e22e>bottomRight</span>.<span style=color:#a6e22e>y</span> {
+    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>CountZeroes</span>(<span style=color:#a6e22e>arr</span>[<span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>y</span>][<span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>x</span> : <span style=color:#a6e22e>bottomRight</span>.<span style=color:#a6e22e>x</span><span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>])
+  }
+
+  <span style=color:#a6e22e>mid</span> <span style=color:#f92672>:=</span> (<span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>bottomRight</span>.<span style=color:#a6e22e>y</span>) <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>
+  <span style=color:#a6e22e>midRow</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>arr</span>[<span style=color:#a6e22e>mid</span>]
+
+  <span style=color:#a6e22e>zeroes</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>CountZeroes</span>(<span style=color:#a6e22e>midRow</span>) <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>
+  <span style=color:#a6e22e>m</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>point</span>{<span style=color:#a6e22e>zeroes</span>, <span style=color:#a6e22e>mid</span>}
+
+  <span style=color:#66d9ef>return</span> (<span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>x</span><span style=color:#f92672>-</span><span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>x</span><span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>)<span style=color:#f92672>*</span>(<span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>y</span><span style=color:#f92672>-</span><span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>y</span><span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>) <span style=color:#f92672>+</span>
+    <span style=color:#a6e22e>countR</span>(<span style=color:#a6e22e>arr</span>, <span style=color:#a6e22e>point</span>{<span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>}, <span style=color:#a6e22e>point</span>{<span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>bottomRight</span>.<span style=color:#a6e22e>y</span>}) <span style=color:#f92672>+</span>
+    <span style=color:#a6e22e>countR</span>(<span style=color:#a6e22e>arr</span>, <span style=color:#a6e22e>point</span>{<span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>topLeft</span>.<span style=color:#a6e22e>y</span>}, <span style=color:#a6e22e>point</span>{<span style=color:#a6e22e>bottomRight</span>.<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>})
+}
+</code></pre></div><p>What is the computational complexity of this algorithm? The CareerCup discussion
+of this problem said O(logN), while I guessed O(log²N). Each recursion, you do
+logN work to find the midpoint and then do two smaller recursions on a problem a
+quarter of the size.</p><p>However, writing C(N²) for the complexity of an N² 2D array, solving the recursion
+C(N²) = logN + 2C(N²/4) yields a complexity of O(N). This is better than
+O(NlogN) but not quite as good as O(log²N) and far worse than O(logN).</p><p>A derivation is provided below:</p><p>{% raw %}</p><p>$$
+\begin{aligned}
+C(N^2) &= \log_2 N + 2C\left(\frac{N^2}{4}\right) \<br>&= \log_2 N + 2\log_2 N/2 + 4C\left(\frac{N^2}{16}\right) \<br>&= \log_2 N + 2\log_2 N/2 + &mldr; + N\log_2 N/N \<br>&= \sum_{k=0}^{\log_2N} 2^k \log_2(N/2^k) \<br>&= \sum_{k=0}^{\log_2N} 2^k(\log_2N - \log_22^k \<br>&= \sum_{k=0}^{\log_2N} 2^k(\log_2N - k) \<br>&= \sum_{k=0}^{\log_2N} (2^k\log_2N - k2^k) \<br>&= \log_2N\sum_{k=0}^{\log_2N} 2^k - \sum_{k=0}^{\log_2N}k2^k \<br>&= \log_2N(2^{\log_2N + 1} - 1) - \sum_{k=0}^{\log_2N}k2^k \<br>&= \log_2N(2N - 1) - \sum_{k=0}^{\log_2N}k2^k \<br>&= \log_2N(2N - 1) - 2(2^{\log_2N}\log_2N - 2^{\log_2N} + 1) \<br>&= \log_2N(2N - 1) - 2(N\log_2N - N + 1) \<br>&= 2N -\log_2N - 2 \<br>&= O(N)
+\end{aligned}
+$$</p><p>{% endraw %}</p><p>What is the memory requirement? The stack grows exponentially (each recursion
+creates two more) but we are bound to O(logN) recursion depth, which gives a total
+stack memory requirement of O(N).</p><p>Note that neither tail-call optimisation nor an explicit stack would help to reduce
+our memory requirement.</p><h3 id=saddleback-search>Saddleback search</h3><p>Can we do better? A far simpler O(N) algorithm is a <a href=http://www.cs.utexas.edu/users/EWD/ewd09xx/EWD934.PDF>Saddleback Search</a>.</p><p>Start in the top right corner of the array. If we see a 1, move left. If we see
+a 0, add our current x position to a total, and then move down. Continue until
+we fall off the bottom or left of the array.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Count</span>(<span style=color:#a6e22e>arr</span> [][]<span style=color:#66d9ef>bool</span>) <span style=color:#66d9ef>int</span> {
+  <span style=color:#a6e22e>x</span> <span style=color:#f92672>:=</span> len(<span style=color:#a6e22e>arr</span>) <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>
+  <span style=color:#a6e22e>y</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>
+  <span style=color:#a6e22e>total</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>
+  <span style=color:#66d9ef>for</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#a6e22e>y</span> &lt; len(<span style=color:#a6e22e>arr</span>) {
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>arr</span>[<span style=color:#a6e22e>y</span>][<span style=color:#a6e22e>x</span>] {
+      <span style=color:#a6e22e>x</span><span style=color:#f92672>--</span>
+    } <span style=color:#66d9ef>else</span> {
+      <span style=color:#a6e22e>total</span> <span style=color:#f92672>+=</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+      <span style=color:#a6e22e>y</span><span style=color:#f92672>++</span>
+    }
+  }
+  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>total</span>
+}
+</code></pre></div><p>This solution is much simpler and less error-prone than the quadtree counter.
+The complexity is again O(n) as the maximum number of steps we can take is 2n.
+It requires a small, constant amount of additional memory.</p><h3 id=an-empirical-analysis-of-runtime>An empirical analysis of runtime</h3><p>How well do our theoretical runtimes match reality? I used Go&rsquo;s benchmarking
+facility to find out.</p><p>I precomputed many N² 2D array where the first row contained N 0s, the next contained
+N-1 0s and so on. A better set of benchmarks would also include various other
+patterns of 0s to get a more accurate picture of how each algorithm might perform on
+real world data. I created these arrays at intervals starting at 1x1 and ending
+at 100000x100000.</p><p>Using Go&rsquo;s benchmarking facility means you don&rsquo;t have to write logic to perform
+multiple trials and average the results. This is handled for you, where quicker
+methods (therefore those with a potentially higher variance) are subject to more
+trials. When using <code>go test -bench</code>, remember to supply a RegEx as an argument
+to bench, as by default no benchmarks are run. Use <code>go test -bench .</code> to run all
+benchmarks. (I found this behaviour confusing as <code>go test</code> does not work this way).</p><p>Here are the results:</p><p>| Array side length | Average Time taken (ns) |
+| N | Linear | Binary Search | QuadTree | Saddleback |
+|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;|
+| 1 | 6.96 | 11.2 | 11.5 | 7.06 |
+| 2 | 10.8 | 18.7 | 32.5 | 10.2 |
+| 5 | 23.3 | 44.4 | 79 | 18.8 |
+| 10 | 59.3 | 95.7 | 159 | 33.4 |
+| 50 | 1464 | 669 | 933 | 163 |
+| 100 | 4107 | 1673 | 2103 | 326 |
+| 500 | 89761 | 18681 | 12655 | 1623 |
+| 1000 | 352023 | 48210 | 37724 | 3331 |
+| 5000 | 8721353 | 690117 | 522126 | 30804 |
+| 10000 | 35406766 | 1741224 | 1316930 | 71186 |
+| 30000 | 289993371 | 6538812 | 5473949 | 906406 |
+| 50000 | 1951491919 | 1034360290 | 11534336 | 1724967 |
+| 70000 | 3608704183 | 1549914168 | 13875635 | 2755737 |
+| 80000 | 4574500532 | 2060577730 | 18524247 | 3385933 |
+| 90000 | 6899882267 | 1962937898 | 22651835 | 4002597 |
+| 100000 | 7178311670 | 2383500531 | 24857549 | 4473402 |</p><p>And here are the results graphed on a lin-log plot of N against runtime:</p><p><a href="https://docs.google.com/spreadsheets/d/1-2DoAsnsGE-Ug4OEuDlyTIBf2ajTIGWA2rHWeVYFdG8/pubchart?oid=1712590844&format=interactive"><img src=/images/2016-08-31_lin-log-all.png alt="Lin-log plot of N against runtime"></a></p><p>Finally, how can we tell whether our theoretical runtimes match up against
+our actual runtimes? Our runtimes shouldn&rsquo;t grow faster than a linear multiple
+of our big-O past some size of input. Though totally unscientific, graphing our
+runtime against the big-O of our input size for the algorithm in question should
+give us some intuition as to whether our complexity is correct.</p><p>Here, I&rsquo;ve plotted N against the runtimes of the quadtree and Saddleback algorithms:</p><p><a href="https://docs.google.com/spreadsheets/d/1-2DoAsnsGE-Ug4OEuDlyTIBf2ajTIGWA2rHWeVYFdG8/pubchart?oid=424841642&format=interactive"><img src=/images/2016-08-31_quadtree-saddleback.png alt="Plot of N against runtime for quadtree and Saddleback"></a></p><p>You can view all the graphs and the data in this <a href="https://docs.google.com/spreadsheets/d/1-2DoAsnsGE-Ug4OEuDlyTIBf2ajTIGWA2rHWeVYFdG8/edit?usp=sharing">Google Doc</a>.</p><h3 id=summary>Summary</h3><p>I found it very satisfying that there are so many different algorithms for
+what is a reasonably simple problem, and doubtless there are a few more we have
+not yet explored (for example using a matrix multiplication, potentially on a GPU),
+and there are ways we could have made our other algorithms more efficient (e.g. by parallelising).</p><p>We&rsquo;ve also shown that our theoretical run-times match approximately against
+empirical measurements, and the complexity of the quadtree-esque algorithm had
+a complexity of O(N) rather than O(log²N) as I&rsquo;d originally guessed.</p><p>Thanks to my friends and colleagues who have had to listen to me ramble on about
+counting zeroes and ones in an array for far too long now, with not even a hint
+of &ldquo;why would you ever want to do this.&rdquo;</p></article></body></html>

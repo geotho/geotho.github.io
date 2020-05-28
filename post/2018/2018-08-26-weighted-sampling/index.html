@@ -1,0 +1,173 @@
+<!doctype html><html lang=en-us><title>Random weighted sampling | George Thomas</title><meta charset=utf-8><meta name=generator content="Hugo 0.71.1"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=https://geotho.github.iocss/index.css><link rel=stylesheet href=https://geotho.github.iocss/classes.css><link rel=canonical href=https://geotho.github.io/post/2018/2018-08-26-weighted-sampling/><link rel=alternate type=application/rss+xml href title="George Thomas"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css integrity=sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body);></script><body><header class=icons><a href=https://geotho.github.io>George Thomas</a><nav><a href=/about/>About</a>
+<a href=/projects/>Projects</a></nav></header><article><header><h1>Random weighted sampling</h1><time datetime=2018-08-26T00:00:00Z>August 26, 2018</time></header><p>Suppose you have some mapping from keys to weights and you want to pick a key
+at random from the map proportional to its weight. How do you do it?</p><p>Build a map that stores (key, weight) pairs.
+Remember the total weight of the map.
+When picking, pick a random number <code>r</code>, then iterate through the map.
+If the value <code>v</code> for key <code>k</code> is greater than <code>r</code>, return <code>k</code>.
+Otherwise, subtract <code>v</code> from <code>r</code> and continue.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>smplr</span>
+
+<span style=color:#f92672>import</span> (
+	<span style=color:#e6db74>&#34;math/rand&#34;</span>
+	<span style=color:#e6db74>&#34;time&#34;</span>
+)
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>WeightedSampler</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>total</span>   <span style=color:#66d9ef>int</span>
+	<span style=color:#a6e22e>weights</span> <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>
+	<span style=color:#a6e22e>src</span>     <span style=color:#f92672>*</span><span style=color:#a6e22e>rand</span>.<span style=color:#a6e22e>Rand</span>
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewWeightedSampler</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>WeightedSampler</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>WeightedSampler</span>{
+		<span style=color:#a6e22e>weights</span>: make(<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>),
+		<span style=color:#a6e22e>src</span>:     <span style=color:#a6e22e>rand</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>rand</span>.<span style=color:#a6e22e>NewSource</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Now</span>().<span style=color:#a6e22e>UnixNano</span>())),
+	}
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>w</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>WeightedSampler</span>) <span style=color:#a6e22e>Set</span>(<span style=color:#a6e22e>key</span> <span style=color:#66d9ef>string</span>, <span style=color:#a6e22e>weight</span> <span style=color:#66d9ef>int</span>) {
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>weight</span> &lt; <span style=color:#ae81ff>0</span> {
+		panic(<span style=color:#e6db74>&#34;weight cannot be less than 0&#34;</span>)
+	}
+
+	<span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>total</span> <span style=color:#f92672>-=</span> <span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>weights</span>[<span style=color:#a6e22e>key</span>]
+
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>weight</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> {
+		delete(<span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>weights</span>, <span style=color:#a6e22e>key</span>)
+		<span style=color:#66d9ef>return</span>
+	}
+
+	<span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>total</span> <span style=color:#f92672>+=</span> <span style=color:#a6e22e>weight</span>
+	<span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>weights</span>[<span style=color:#a6e22e>key</span>] = <span style=color:#a6e22e>weight</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>w</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>WeightedSampler</span>) <span style=color:#a6e22e>Pick</span>() <span style=color:#66d9ef>string</span> {
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>total</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> {
+		<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;&#34;</span>
+	}
+
+	<span style=color:#a6e22e>r</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>src</span>.<span style=color:#a6e22e>Intn</span>(<span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>total</span>)
+
+	<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>k</span>, <span style=color:#a6e22e>v</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>w</span>.<span style=color:#a6e22e>weights</span> {
+		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>r</span> &lt; <span style=color:#a6e22e>v</span> {
+			<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>k</span>
+		}
+		<span style=color:#a6e22e>r</span> <span style=color:#f92672>-=</span> <span style=color:#a6e22e>v</span>
+	}
+
+	<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;&#34;</span>
+}
+</code></pre></div><p>Once you&rsquo;ve done all that hard work, how can you test it?</p><p>When unit testing deterministic behaviour, we specify expected outputs for given inputs,
+and assert they are equal.</p><p>When unit testing non-deterministic behaviour, like our weighted sampler here,
+it&rsquo;s unwise to do this for two reasons:</p><ol><li>Even if it is possible to make the behaviour deterministic, e.g. by seeding a random generator
+or mocking its behaviour, doing so ties the test to the implementation rather than the interface.</li><li>Deterministic tests would still require robust statistical analysis that proper non-deterministic tests require anyway, so you&rsquo;re actually creating more work for yourself.</li></ol><p>So let&rsquo;s assume we want to test our weighted random sampler with a statistical test.</p><p>One method might be to just try it out and eyeball the results. Here&rsquo;s an example unit test:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>smplr</span>
+
+<span style=color:#f92672>import</span> (
+	<span style=color:#e6db74>&#34;testing&#34;</span>
+)
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestWeightedSampler</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#a6e22e>ws</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>NewWeightedSampler</span>()
+	<span style=color:#a6e22e>ws</span>.<span style=color:#a6e22e>Set</span>(<span style=color:#e6db74>&#34;a&#34;</span>, <span style=color:#ae81ff>1</span>)
+	<span style=color:#a6e22e>ws</span>.<span style=color:#a6e22e>Set</span>(<span style=color:#e6db74>&#34;b&#34;</span>, <span style=color:#ae81ff>1</span>)
+	<span style=color:#a6e22e>ws</span>.<span style=color:#a6e22e>Set</span>(<span style=color:#e6db74>&#34;c&#34;</span>, <span style=color:#ae81ff>1</span>)
+	<span style=color:#a6e22e>ws</span>.<span style=color:#a6e22e>Set</span>(<span style=color:#e6db74>&#34;d&#34;</span>, <span style=color:#ae81ff>1</span>)
+
+	<span style=color:#a6e22e>N</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>10000</span>
+	<span style=color:#a6e22e>counts</span> <span style=color:#f92672>:=</span> make(<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>, <span style=color:#ae81ff>4</span>)
+	<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> &lt; <span style=color:#a6e22e>N</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span> {
+		<span style=color:#a6e22e>k</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ws</span>.<span style=color:#a6e22e>Pick</span>()
+		<span style=color:#a6e22e>counts</span>[<span style=color:#a6e22e>k</span>]<span style=color:#f92672>++</span>
+	}
+
+	<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Logf</span>(<span style=color:#e6db74>&#34;counts: %v\n&#34;</span>, <span style=color:#a6e22e>counts</span>)
+}
+</code></pre></div><p>I ran this, and got a log line that looked like:</p><pre><code>counts: map[b:2556 a:2460 c:2513 d:2471]
+</code></pre><p>which looks plausible: the expected value for each of these is 2500. But statistically how confident should I be?</p><p>Well one could incorporate a chi-squared test here to find out.</p><p>We can use chi-squared to test whether the difference between our observed frequencies and our expected frequencies is significant. All that&rsquo;s left to do now is to pick an appropriate
+quantile and number of trials. Picking a higher quantile is essentially saying &ldquo;this test should
+fail by random chance 1 in every X times&rdquo;. For a unit test in your CI pipeline, you want X to be quite high: maybe 1000 or 10000. Or maybe a million or more if you&rsquo;re Google.</p><p>Another thing to bear in mind: ensure you&rsquo;re writing tests for your algorithm, rather
+than for the source of randomness itself. It&rsquo;s easy to go off the deep end and test too much.
+Ensure you assume your source of randomness is infact random and that you aren&rsquo;t bothering to test that part.</p><p>Here&rsquo;s a Go table-driven test which tests my random sampler:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>smplr</span>
+
+<span style=color:#f92672>import</span> (
+	<span style=color:#e6db74>&#34;sort&#34;</span>
+	<span style=color:#e6db74>&#34;testing&#34;</span>
+
+	<span style=color:#e6db74>&#34;gonum.org/v1/gonum/stat&#34;</span>
+	<span style=color:#e6db74>&#34;gonum.org/v1/gonum/stat/distuv&#34;</span>
+)
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestWeightedSampler</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>testcase</span> <span style=color:#66d9ef>struct</span> {
+		<span style=color:#a6e22e>name</span>    <span style=color:#66d9ef>string</span>
+		<span style=color:#a6e22e>weights</span> <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>
+	}
+
+	<span style=color:#66d9ef>const</span> (
+		<span style=color:#a6e22e>quantile</span> = <span style=color:#ae81ff>0.99</span>
+		<span style=color:#a6e22e>N</span>        = <span style=color:#ae81ff>1000000</span>
+	)
+
+	<span style=color:#a6e22e>testcases</span> <span style=color:#f92672>:=</span> []<span style=color:#a6e22e>testcase</span>{
+		<span style=color:#a6e22e>testcase</span>{
+			<span style=color:#a6e22e>name</span>:    <span style=color:#e6db74>&#34;fourValsEqualWeights&#34;</span>,
+			<span style=color:#a6e22e>weights</span>: <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>{<span style=color:#e6db74>&#34;a&#34;</span>: <span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#34;b&#34;</span>: <span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#34;c&#34;</span>: <span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#34;d&#34;</span>: <span style=color:#ae81ff>1</span>},
+		},
+		<span style=color:#a6e22e>testcase</span>{
+			<span style=color:#a6e22e>name</span>:    <span style=color:#e6db74>&#34;twoValEqualWeights&#34;</span>,
+			<span style=color:#a6e22e>weights</span>: <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>{<span style=color:#e6db74>&#34;a&#34;</span>: <span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#34;b&#34;</span>: <span style=color:#ae81ff>1</span>},
+		},
+		<span style=color:#a6e22e>testcase</span>{
+			<span style=color:#a6e22e>name</span>:    <span style=color:#e6db74>&#34;twoValDifferentWeights&#34;</span>,
+			<span style=color:#a6e22e>weights</span>: <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>{<span style=color:#e6db74>&#34;a&#34;</span>: <span style=color:#ae81ff>7</span>, <span style=color:#e6db74>&#34;b&#34;</span>: <span style=color:#ae81ff>1</span>},
+		},
+		<span style=color:#a6e22e>testcase</span>{
+			<span style=color:#a6e22e>name</span>:    <span style=color:#e6db74>&#34;twoValVeryDifferentWeights&#34;</span>,
+			<span style=color:#a6e22e>weights</span>: <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>{<span style=color:#e6db74>&#34;a&#34;</span>: <span style=color:#ae81ff>99</span>, <span style=color:#e6db74>&#34;b&#34;</span>: <span style=color:#ae81ff>1</span>},
+		},
+		<span style=color:#a6e22e>testcase</span>{
+			<span style=color:#a6e22e>name</span>:    <span style=color:#e6db74>&#34;fourValDifferentWeights&#34;</span>,
+			<span style=color:#a6e22e>weights</span>: <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>{<span style=color:#e6db74>&#34;a&#34;</span>: <span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#34;b&#34;</span>: <span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#34;c&#34;</span>: <span style=color:#ae81ff>2</span>, <span style=color:#e6db74>&#34;d&#34;</span>: <span style=color:#ae81ff>4</span>},
+		},
+	}
+
+	<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>tt</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>testcases</span> {
+		<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Run</span>(<span style=color:#a6e22e>tt</span>.<span style=color:#a6e22e>name</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+			<span style=color:#a6e22e>ws</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>NewWeightedSampler</span>()
+			<span style=color:#a6e22e>total</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>
+			<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>k</span>, <span style=color:#a6e22e>v</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>tt</span>.<span style=color:#a6e22e>weights</span> {
+				<span style=color:#a6e22e>total</span> <span style=color:#f92672>+=</span> <span style=color:#a6e22e>v</span>
+				<span style=color:#a6e22e>ws</span>.<span style=color:#a6e22e>Set</span>(<span style=color:#a6e22e>k</span>, <span style=color:#a6e22e>v</span>)
+			}
+
+			<span style=color:#a6e22e>expected</span> <span style=color:#f92672>:=</span> make(<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>, len(<span style=color:#a6e22e>tt</span>.<span style=color:#a6e22e>weights</span>))
+			<span style=color:#a6e22e>counts</span> <span style=color:#f92672>:=</span> make(<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>int</span>, len(<span style=color:#a6e22e>tt</span>.<span style=color:#a6e22e>weights</span>))
+
+			<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>k</span>, <span style=color:#a6e22e>v</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>tt</span>.<span style=color:#a6e22e>weights</span> {
+				<span style=color:#a6e22e>expected</span>[<span style=color:#a6e22e>k</span>] = (<span style=color:#a6e22e>N</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>v</span>) <span style=color:#f92672>/</span> <span style=color:#a6e22e>total</span>
+				<span style=color:#a6e22e>counts</span>[<span style=color:#a6e22e>k</span>] = <span style=color:#ae81ff>0</span>
+			}
+
+			<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> &lt; <span style=color:#a6e22e>N</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span> {
+				<span style=color:#a6e22e>k</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ws</span>.<span style=color:#a6e22e>Pick</span>()
+				<span style=color:#a6e22e>counts</span>[<span style=color:#a6e22e>k</span>]<span style=color:#f92672>++</span>
+			}
+
+			<span style=color:#a6e22e>obs</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>toSortedArray</span>(<span style=color:#a6e22e>counts</span>)
+			<span style=color:#a6e22e>exp</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>toSortedArray</span>(<span style=color:#a6e22e>expected</span>)
+
+			<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Logf</span>(<span style=color:#e6db74>&#34;\nobs: %v\nexp: %v\n&#34;</span>, <span style=color:#a6e22e>obs</span>, <span style=color:#a6e22e>exp</span>)
+
+			<span style=color:#a6e22e>distance</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>stat</span>.<span style=color:#a6e22e>ChiSquare</span>(<span style=color:#a6e22e>obs</span>, <span style=color:#a6e22e>exp</span>)
+			<span style=color:#a6e22e>distribution</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>distuv</span>.<span style=color:#a6e22e>ChiSquared</span>{
+				<span style=color:#a6e22e>K</span>: float64(len(<span style=color:#a6e22e>tt</span>.<span style=color:#a6e22e>weights</span>) <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>),
+			}
+
+			<span style=color:#a6e22e>criticalValue</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>distribution</span>.<span style=color:#a6e22e>Quantile</span>(<span style=color:#a6e22e>quantile</span>)
+
+			<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>criticalValue</span> &lt; <span style=color:#a6e22e>distance</span> {
+				<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Errorf</span>(<span style=color:#e6db74>&#34;critical value (%.1f percentile) = %f &lt; chi-squared distance = %f&#34;</span>, <span style=color:#a6e22e>quantile</span><span style=color:#f92672>*</span><span style=color:#ae81ff>100</span>, <span style=color:#a6e22e>criticalValue</span>, <span style=color:#a6e22e>distance</span>)
+			}
+		})
+	}
+}
+</code></pre></div><p>Great! I&rsquo;m missing a unit test for the single-key case, and also for the zero-key case (which should panic). But other than that I&rsquo;d be happy to make a PR for this code.</p><p>I&rsquo;ll add a quick note on time and space complexity. The space complexity here is O(n) in the number of keys added (though some say that&rsquo;s O(1) because we aren&rsquo;t storing anything additional to the input.)</p><p>The time complexity for insertion is O(1), and for picking it is O(n), scaling linearly with number of keys. There are ways you can use more memory and increase insertion time in order to make picking faster (O(logN) or even O(1)), but of course before doing any performance enhancements it&rsquo;s wise to benchmark first.</p></article></body></html>
