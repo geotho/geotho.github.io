@@ -1,0 +1,32 @@
+<!doctype html><html lang=en-us><title>Record 'friction' to build quality software | George Thomas</title><meta charset=utf-8><meta name=generator content="Hugo 0.110.0"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=https://geotho.github.io/css/index.css><link rel=stylesheet href=https://geotho.github.io/css/classes.css><link rel=canonical href=https://geotho.github.io/post/2020-08-31-record-friction-to-build-quality-software/><link rel=alternate type=application/rss+xml href title="George Thomas"><link rel=icon type=image/svg+xml href=/favicon.svg><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css integrity=sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-66953349-2","auto"),ga("send","pageview"))</script><body><header class=icons><a href=https://geotho.github.io/>George Thomas</a><nav><a href=/about/>About</a>
+<a href=/projects/>Projects</a></nav></header><article><header><h1>Record 'friction' to build quality software</h1><time datetime=2020-08-31T14:01:17+01:00>August 31, 2020</time></header><p>When was the last time you were consciously impressed by the quality of
+some software?</p><p>It might have been a particularly helpful error message — one that explained
+what you were doing wrong and how you might fix it.
+Or a testing library whose assertions were clear and transparent.
+Or a service mesh whose installation worked first time.</p><p>Quality in software doesn&rsquo;t appear by accident. It takes a great deal of effort
+to make a good developer experience.</p><p>One strategy to dramatically and deliberately increase quality is to document
+&lsquo;friction&rsquo; when people use your software. This can then inform your product roadmap.</p><p>Enter: the <em>friction doc</em>.</p><h2 id=what-is-a-friction-doc->What is a &lsquo;friction doc&rsquo;? 🤷🏻‍♀️</h2><p>A friction doc is a durable record of issues that your users encountered while
+trying to use your software.</p><p>Encourage your users to record difficulties as they encounter them.
+Then schedule a follow-up where your user can share their friction doc with you.</p><p>Friction docs are to developer experience what code review is to PRs.</p><p>Any piece of software can have a friction doc: APIs and SDKs, command line
+tools, server infrastructure, even documentation and tutorials.</p><h2 id=tips-for-writing-friction-docs->Tips for writing friction docs ✍🏼</h2><p>If you&rsquo;ve been asked to write a friction doc,
+the following tips might be useful.</p><h3 id=1-keep-it-factual->1. Keep it factual 🔢</h3><p>Write sentences of the form &ldquo;When I tried to do X, Y happened instead. I assumed
+Z, which turned out to be incorrect.&rdquo; Avoid being emotive
+(e.g. &ldquo;This is disappointing&rdquo;) as it is likely to dilute your issue.</p><h3 id=2-do-it-live->2. Do it live 📺</h3><p>Keep a running doc and record issues as they come up.
+Often, you&rsquo;ll encounter some issue, realise it was due to some misunderstanding,
+and then disregard it with hindsight bias.
+But the point of the friction doc is to record these misunderstandings so they
+can be fixed for the next person. So record them as they come up.</p><h3 id=3-provide-suggestions-not-solutions->3. Provide suggestions, not solutions 🔮</h3><p>The old adage goes &ldquo;Don&rsquo;t bring me problems; bring me solutions!&rdquo;</p><p>It is helpful to provide suggestions to mitigate the friction
+(e.g. &ldquo;the error message could be more informative if it mentioned X&rdquo;).
+But remember:</p><ol><li>The author of the software may have thought about the problem already;</li><li>There may be good reasons that what you are suggesting is unworkable
+(see <a href=https://en.wikipedia.org/wiki/Wikipedia:Chesterton%27s_fence>Chesterton&rsquo;s Fence</a>).</li></ol><p>So when making suggestions for fixes, be mindful that there may be other aspects
+of the problem that you haven&rsquo;t yet considered.</p><h3 id=4-if-youve-noticed-it-its-big-enough-to-include->4. If you&rsquo;ve noticed it, it&rsquo;s big enough to include 🐛</h3><p>Don&rsquo;t feel bad about recording nits, typos or small bugs. If they are minor,
+they should be easy to fix. There&rsquo;s a bit of <a href=https://en.wikipedia.org/wiki/Broken_windows_theory>broken windows theory</a> here:
+how much would you trust software that had misspellings in its outputs?</p><h3 id=5-be-kind->5. Be kind! 😇</h3><p>Remember that you&rsquo;re providing feedback to help make the software better.</p><p>Some specific pointers on being kind:</p><ul><li><strong>Don&rsquo;t surprise the recipient</strong> — Instead, ask &ldquo;Hey, I usually make notes
+on the things I found difficult when using new software. Would you mind if I
+shared it with you when I am done?&rdquo;</li><li><strong>Share your feedback in person or via VC</strong> — It&rsquo;s easier for comments to be
+misinterpreted when they are read rather than spoken. Your feedback might come
+across harsher than intended if presented only as a document / email.</li><li><strong>Read your notes back before you send them</strong> — If you must feedback via text,
+read through your notes before sending them on. Check whether any of the
+comments can be intrepreted in a less charitable fashion.</li></ul></article></body></html>
