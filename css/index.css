@@ -58,8 +58,18 @@ article a {
   color: #3d348b;
 }
 
+@media (prefers-color-scheme: dark) {
+  article a {
+    color: #82abee;
+  }
+}
+
 article a.page-link {
   font-size: 1.1em;
+}
+
+header.icons a {
+  font-weight: bold;
 }
 
 header time {
