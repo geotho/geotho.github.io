@@ -1,9 +1,43 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>code on George Thomas</title><link>https://geotho.github.io/categories/code/</link><description>Recent content in code on George Thomas</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><lastBuildDate>Sun, 31 Jul 2016 21:44:00 +0000</lastBuildDate><atom:link href="https://geotho.github.io/categories/code/index.xml" rel="self" type="application/rss+xml"/><item><title>Analysing runtime of algorithms</title><link>https://geotho.github.io/post/2016-07-31-analysing-runtime-algorithms/</link><pubDate>Sun, 31 Jul 2016 21:44:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-31-analysing-runtime-algorithms/</guid><description>In this post, I consider four different algorithms that solve the same problem.
-The problem Imagine a square 2D array that contains only zeroes and ones. Each row and column is sorted in ascending order. Count the number of zeroes.
-0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 1 1 1 1 0 0 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 I found this problem on CareerCup and was drawn initially to the uncertainty about the fastest possible algorithm.</description></item><item><title>Missing the forest for the trees in code reviews</title><link>https://geotho.github.io/post/2016-07-28-forest-for-the-trees/</link><pubDate>Thu, 28 Jul 2016 17:06:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-28-forest-for-the-trees/</guid><description>Reading through a pull request earlier this week, I came across some code that read:
-function addPanel(p) { panels.push(p); if (panels.length &amp;gt; 0) { p.open(); } } Feeling smug, I commented that if (panels.length &amp;gt; 0) should be shortened to if (panels.length).
-In hindsight, a more helpful comment would have been that panels.length &amp;gt; 0 will always be true in this scenario and therefore the code is likely to be erroneous.</description></item><item><title>Writing a Kakuro solver in CoffeeScript</title><link>https://geotho.github.io/post/2016-07-07-kakuro-solving/</link><pubDate>Thu, 07 Jul 2016 13:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-07-kakuro-solving/</guid><description>A Kakuro is a Japanese number puzzle with the following rules:
-Each row and column must add up to the number directly above or to the left of it; You can only use the numbers one to nine; Each number in the row or column must be distinct. I&amp;rsquo;ve written a Kakuro solver which you can play around with here: http://geotho.github.io/kakuro-solver/
-If you are interested in seeing the solving code, you can do so here.</description></item><item><title>Reject unrecognised parameters</title><link>https://geotho.github.io/post/2016-02-22-reject-unrecognised-parameters/</link><pubDate>Mon, 22 Feb 2016 17:56:47 +0000</pubDate><guid>https://geotho.github.io/post/2016-02-22-reject-unrecognised-parameters/</guid><description>TL;DR: your API or library should error if it is passed parameters it does not recognise.
-I recently spent a week debugging a friend&amp;rsquo;s JavaScript code. A datepicker library seemingly wasn&amp;rsquo;t picking up changes to the date format, supplied through options like so:
-\$(&amp;#34;#datepicker&amp;#34;).datepicker({ &amp;#34;dateFormat&amp;#34;: &amp;#34;yy-mm-dd&amp;#34;, }); We arrived at the solution after 43 emails – the code was using bootstrap-datepicker while the options were from jQueryUI-datapicker. We should have been using format rather than dateFormat.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Code on George Thomas</title><link>https://geotho.github.io/categories/code/</link><description>Recent content in Code on George Thomas</description><generator>Hugo</generator><language>en-gb</language><lastBuildDate>Sun, 31 Jul 2016 21:44:00 +0000</lastBuildDate><atom:link href="https://geotho.github.io/categories/code/index.xml" rel="self" type="application/rss+xml"/><item><title>Analysing runtime of algorithms</title><link>https://geotho.github.io/post/2016-07-31-analysing-runtime-algorithms/</link><pubDate>Sun, 31 Jul 2016 21:44:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-31-analysing-runtime-algorithms/</guid><description>&lt;p>In this post, I consider four different algorithms that solve the same problem.&lt;/p>
+&lt;h2 id="the-problem">The problem&lt;/h2>
+&lt;p>Imagine a square 2D array that contains only zeroes and ones. Each row and column is
+sorted in ascending order. Count the number of zeroes.&lt;/p>
+&lt;pre tabindex="0">&lt;code>0 0 0 0 0 0 0 0 0 1
+0 0 0 0 0 0 0 0 1 1
+0 0 0 0 0 0 1 1 1 1
+0 0 0 1 1 1 1 1 1 1
+0 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+&lt;/code>&lt;/pre>&lt;p>I found this problem on &lt;a href="https://careercup.com/question?id=5767203879124992">CareerCup&lt;/a>
+and was drawn initially to the uncertainty about the fastest possible algorithm.&lt;/p></description></item><item><title>Missing the forest for the trees in code reviews</title><link>https://geotho.github.io/post/2016-07-28-forest-for-the-trees/</link><pubDate>Thu, 28 Jul 2016 17:06:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-28-forest-for-the-trees/</guid><description>&lt;p>Reading through a pull request earlier this week, I came across some code that read:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">addPanel&lt;/span>(&lt;span style="color:#a6e22e">p&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">panels&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">p&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#a6e22e">panels&lt;/span>.&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">p&lt;/span>.&lt;span style="color:#a6e22e">open&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Feeling smug, I commented that &lt;code>if (panels.length &amp;gt; 0)&lt;/code> should be shortened to &lt;code>if (panels.length)&lt;/code>.&lt;/p>
+&lt;p>In hindsight, a more helpful comment would have been that &lt;code>panels.length &amp;gt; 0&lt;/code> will always be true in this scenario and therefore the code is likely to be erroneous.&lt;/p></description></item><item><title>Writing a Kakuro solver in CoffeeScript</title><link>https://geotho.github.io/post/2016-07-07-kakuro-solving/</link><pubDate>Thu, 07 Jul 2016 13:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-07-kakuro-solving/</guid><description>&lt;p>A Kakuro is a Japanese number puzzle with the following rules:&lt;/p>
+&lt;ul>
+&lt;li>Each row and column must add up to the number directly above or to the left of it;&lt;/li>
+&lt;li>You can only use the numbers one to nine;&lt;/li>
+&lt;li>Each number in the row or column must be distinct.&lt;/li>
+&lt;/ul>
+&lt;p>I&amp;rsquo;ve written a Kakuro solver which you can play around with here: &lt;a href="http://geotho.github.io/kakuro-solver/">http://geotho.github.io/kakuro-solver/&lt;/a>&lt;/p>
+&lt;p>If you are interested in seeing the solving code, you can do so &lt;a href="https://github.com/geotho/kakuro-solver/blob/master/src/js/kakuro.coffee">here&lt;/a>.&lt;/p></description></item><item><title>Reject unrecognised parameters</title><link>https://geotho.github.io/post/2016-02-22-reject-unrecognised-parameters/</link><pubDate>Mon, 22 Feb 2016 17:56:47 +0000</pubDate><guid>https://geotho.github.io/post/2016-02-22-reject-unrecognised-parameters/</guid><description>&lt;p>&lt;strong>TL;DR:&lt;/strong> your API or library should error if it is passed parameters it does
+not recognise.&lt;/p>
+&lt;p>I recently spent a week debugging a friend&amp;rsquo;s JavaScript code.
+A datepicker library seemingly wasn&amp;rsquo;t picking up changes to the date format,
+supplied through options like so:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">\&lt;/span>&lt;span style="color:#a6e22e">$&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;#datepicker&amp;#34;&lt;/span>).&lt;span style="color:#a6e22e">datepicker&lt;/span>({
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;dateFormat&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;yy-mm-dd&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>We arrived at the solution after 43 emails –
+the code was using &lt;code>bootstrap-datepicker&lt;/code> while the options were from &lt;code>jQueryUI-datapicker&lt;/code>.
+We should have been using &lt;code>format&lt;/code> rather than &lt;code>dateFormat&lt;/code>.
+Both libraries use the same method, leading to a confusing half–working scenario.&lt;/p></description></item></channel></rss>

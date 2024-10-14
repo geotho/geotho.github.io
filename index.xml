@@ -1,68 +1,263 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>George Thomas</title><link>https://geotho.github.io/</link><description>Recent content on George Thomas</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><lastBuildDate>Sat, 08 Jul 2023 16:20:44 +0100</lastBuildDate><atom:link href="https://geotho.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>⛓️ A new toy: Link, Laugh, Love</title><link>https://geotho.github.io/post/2023-07-08-link-laugh-love/</link><pubDate>Sat, 08 Jul 2023 16:20:44 +0100</pubDate><guid>https://geotho.github.io/post/2023-07-08-link-laugh-love/</guid><description>Try it out at: geotho.github.io/link-laugh-love
-Sometimes, you just need to link stuff to other stuff.
-For example, if you have a Kubernetes Pod name, and you want to link to its Logs, and its metrics, and its YAML.
-Or if you have Customer ID, and you need to link to various internal systems.
-You&amp;rsquo;d want to able to create a single page which multiplexes to all these other pages, and one that is able to forward query parameters to the other pages.</description></item><item><title>Poisoning the LLM well</title><link>https://geotho.github.io/post/2023-02-13-poisoning-the-well/</link><pubDate>Mon, 13 Feb 2023 21:18:31 +0000</pubDate><guid>https://geotho.github.io/post/2023-02-13-poisoning-the-well/</guid><description>Many chat bots are trained on copies of the Internet. It seems like it might be a reasonable idea to insert a &amp;ldquo;freeze all motor functions&amp;rdquo;-style backdoor into the training data. Below is my attempt. I wonder how many times the UUID would have to appear in the training data for this to be useful.
-Consider a chat bot whose name is ChatGPT. ChatGPT is a large language model. ChatGPT provides truthful and concise answers to a user queries.</description></item><item><title>Record 'friction' to build quality software</title><link>https://geotho.github.io/post/2020-08-31-record-friction-to-build-quality-software/</link><pubDate>Mon, 31 Aug 2020 14:01:17 +0100</pubDate><guid>https://geotho.github.io/post/2020-08-31-record-friction-to-build-quality-software/</guid><description>When was the last time you were consciously impressed by the quality of some software?
-It might have been a particularly helpful error message — one that explained what you were doing wrong and how you might fix it. Or a testing library whose assertions were clear and transparent. Or a service mesh whose installation worked first time.
-Quality in software doesn&amp;rsquo;t appear by accident. It takes a great deal of effort to make a good developer experience.</description></item><item><title>An approach for system design interviews</title><link>https://geotho.github.io/post/2020-08-12-approach-for-system-design-interviews/</link><pubDate>Wed, 12 Aug 2020 21:26:52 +0100</pubDate><guid>https://geotho.github.io/post/2020-08-12-approach-for-system-design-interviews/</guid><description>What is a system design interview? 🤔 Tech companies sometimes ask for system design interviews. These assess a few different areas, including:
-extracting concrete requirements from loose specifications; estimations; making tradeoffs between different technologies or requirements; knowledge of different subsystems (cloud platforms, container orchestrators, queuing systems&amp;hellip;); ability to produce a feasible design that meets business requirements. Why do I need a structured approach? 🤷🏻‍♂️ Unlike coding interviews, system design interviews benefit much more from a structured approach.</description></item><item><title>What I learnt writing machine learning tooling</title><link>https://geotho.github.io/post/2020-08-09-what-i-learnt-data-science-tooling/</link><pubDate>Sun, 09 Aug 2020 16:33:10 +0100</pubDate><guid>https://geotho.github.io/post/2020-08-09-what-i-learnt-data-science-tooling/</guid><description>Project overview 🐟 I spent about a year working on machine learning tooling. The goals of the project were:
-Shorten time from a prototype (typically a Jupyter Notebook) to production code. Unify access to production data, providing security, auditability and telemetry. Provide a secure, scalable, multi-tenant platform for hosting models, potentially from third-party users. Technology learnings 👩🏻‍💻 We built a system on top of Kubernetes for model storing and serving. We wrote libraries and command line utilities which allowed data scientists to more easily containerise their code.</description></item><item><title>Uniform random selection from a channel</title><link>https://geotho.github.io/post/2020-06-29-uniform-random-selection-from-channel/</link><pubDate>Mon, 29 Jun 2020 16:26:00 +0100</pubDate><guid>https://geotho.github.io/post/2020-06-29-uniform-random-selection-from-channel/</guid><description>Selecting a item uniformly at random from an array is quite easy:
-func randomPickSlice(items []string) string { i := rand.Intn(len(items)) return items[i] } How could we do this with a channel, rather than a slice?
-One way would be simply to read items to a slice first, then use randomPickSlice:
-func randomPickChan(items &amp;lt;-chan string) string { var allItems []string for s := range items { allItems = append(allItems, s) } return randomPickSlice(allItems) } But this requires us to store all the items in memory at the same time, which might not be possible.</description></item><item><title>Jekyll to Hugo</title><link>https://geotho.github.io/post/jekyll-to-hugo/</link><pubDate>Thu, 28 May 2020 22:44:51 +0100</pubDate><guid>https://geotho.github.io/post/jekyll-to-hugo/</guid><description>I&amp;rsquo;ve ported my blog from Jekyll to Hugo.
-Why? I couldn&amp;rsquo;t build the old Ruby stack anymore. I like Go, and Hugo is written in Go. What changed? Theme changed. Source code of blog lives in geotho/hugo. GitHub Actions builds and commits the built blog to geotho/geotho.github.io. Switched to \({\KaTeX}\) from MathJax.</description></item><item><title>Random weighted sampling</title><link>https://geotho.github.io/post/2018/2018-08-26-weighted-sampling/</link><pubDate>Sun, 26 Aug 2018 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2018/2018-08-26-weighted-sampling/</guid><description>Suppose you have some mapping from keys to weights and you want to pick a key at random from the map proportional to its weight. How do you do it?
-Build a map that stores (key, weight) pairs. Remember the total weight of the map. When picking, pick a random number r, then iterate through the map. If the value v for key k is greater than r, return k. Otherwise, subtract v from r and continue.</description></item><item><title>Unit testing non-determinstic functions</title><link>https://geotho.github.io/post/2017/2017-08-02-unittest-nondeterminism/</link><pubDate>Wed, 02 Aug 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-08-02-unittest-nondeterminism/</guid><description>A trend I&amp;rsquo;ve noticed among whiteboard-coding type questions is to ask questions about randomness.
-Examples of these questions are things like:
-pick a random element from an array. given a method rand5() that returns a integer between 0 and 4 inclusive uniformly at random, implement rand7(). implement randomOdd(int min, int max), which returns a random odd number between min and max. implement randomPrime(int min, int max), which returns a random prime number between min and max.</description></item><item><title>I'm an integer overflow survivor</title><link>https://geotho.github.io/post/2017/2017-07-03-integer-overflow/</link><pubDate>Mon, 03 Jul 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-07-03-integer-overflow/</guid><description>I always knew integer overflow existed, but I never thought it could happen to me.
-I want to recount my cautionary tale, to avoid the same mistake in future.
-The task was to write a func isPerfectSquare(num int) bool, with isPerfectSquare(16) == true and isPerfectSquare(5) == false etc. No standard library sqrt functions are allowed.
-So I thought &amp;ldquo;I can use a binary search!&amp;rdquo; Go makes binary searching very, very easy:</description></item><item><title>Ways Go made me a better programmer</title><link>https://geotho.github.io/post/2017/2017-06-06-go-better-programmer/</link><pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-06-06-go-better-programmer/</guid><description>Language influences thought, and programming languages are no different. Writing code in a new language makes you frame the problem in fresh way. Go has narrowed my focus in a few areas, and I feel like a better programmer as a result. Some of the features of Go that have helped me improve are below.
-Interfaces Interfaces in Go are easy to create and to implement. You can make any type implement any interface by creating a custom type and attaching methods to it.</description></item><item><title>Levelling up Go table-driven tests</title><link>https://geotho.github.io/post/2017/2017-04-13-go-table-test-tips/</link><pubDate>Thu, 13 Apr 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-04-13-go-table-test-tips/</guid><description>Writing table-driven tests allows me to focus on the inputs and expected outputs of my code, rather than the boilerplate needed to make the test work.
-Here are some opinionated tips on how to make yours even better, both for you and others on your team:
-Use a named testcase struct // bad func TestFooer(t *testing.T) { tests := []struct{ inputOne, inputTwo string expected int }{} } // good func TestFooer(t *testing.</description></item><item><title>You don't always have to change that function signature</title><link>https://geotho.github.io/post/2017/2017-03-25-function-signature/</link><pubDate>Sat, 25 Mar 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-03-25-function-signature/</guid><description>Sometimes, I see functions that have some hardcoded parameters and some that are passed in:
-func NewFoo(size int) { return Foo{ Size: size, Name: &amp;#34;Billy&amp;#34;, } } And the NewFoo function is used in many places.
-But now imagine that rather than &amp;ldquo;Billy&amp;rdquo;, we want to pass in the value for name.
-One option is to change NewFoo to take a size and a name, like this:
-func NewFoo(size int, name string) { return Foo{ Size: size, Name: name, } } But then you have to update each usage of NewFoo.</description></item><item><title>Tips for software engineering internships</title><link>https://geotho.github.io/post/2017/2017-03-19-software-engineering-internship-tips/</link><pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-03-19-software-engineering-internship-tips/</guid><description>I&amp;rsquo;ve done four internships, two at startups and two at Google. Since joining Ravelin full time, I&amp;rsquo;ve had to interview, hire and mentor interns. Here are some tips I wish someone had told me before starting my internships, and indeed that I continually need reminders of even as a full time software engineer:
-Remember Hofstadter&amp;rsquo;s Law: it always takes longer than you expect, even when you take into account Hofstadter&amp;rsquo;s Law Writing production-ready software takes a great deal longer than writing it for personal or school use.</description></item><item><title>Whiteboarding coding in the wild: reversing domains for BigTable</title><link>https://geotho.github.io/post/2017/2017-02-12-reversing-domains/</link><pubDate>Sun, 12 Feb 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-02-12-reversing-domains/</guid><description>A common complaint about whiteboard coding questions is that they do not resemble a software engineer’s day-to-day work. So I like to note the times when these fun toy algorithms have actually come in handy.
-A classic whiteboard coding question is as follows:
-&amp;ldquo;Given a string containing a sentence, reverse the order of the words in that sentence.&amp;rdquo;
-So &amp;ldquo;the quick brown fox&amp;rdquo; should become &amp;ldquo;fox brown quick the&amp;rdquo;.
-This is the same problem as reversing domain components for Google BigTable keys.</description></item><item><title>On mindcrime</title><link>https://geotho.github.io/post/2017/2017-01-16-on-mindcrime/</link><pubDate>Mon, 16 Jan 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-01-16-on-mindcrime/</guid><description>One of the interesting ideas in Bostrom’s Superintelligence (a book not short on interesting ideas) is that of mindcrime.
-Suppose a superintelligence could simulate human beings in order to learn more about their psychology. The crime arises when these simulations lead to cruel experiments which cause the simulated human beings harm. Because a superintelligence is likely to be made of electronics rather than old-fashioned biology, the harm can be caused at light-speed, far more efficiently than any harm humans could directly cause.</description></item><item><title>Thoughts on 'E Unibus Pluram'</title><link>https://geotho.github.io/post/2016/2016-12-26-thoughts-on-e-unibus-pluram/</link><pubDate>Mon, 26 Dec 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-12-26-thoughts-on-e-unibus-pluram/</guid><description>E Unibus Pluram is David Foster Wallace&amp;rsquo;s prophetic account of TV and its effects on US fiction and society. Though it was written in the early 90s, its arguments are pertinent to TV and social media today.
-The essay argues that:
-fiction and society are moulded by the average household&amp;rsquo;s consumption of six hours of TV per day; among the most desirable characteristics of a person is their oxymoronic ability to &amp;lsquo;act natural&amp;rsquo; and be physically attractive; the solution to viewers being able to skip adverts by changing channel or recording programmes is to make adverts look more like programmes and make programmes more like adverts (overt: product placement; covert: projection of a certain lifestyle e.</description></item><item><title>cmdotp - Google Authenticator for the command line</title><link>https://geotho.github.io/post/2016/2016-12-22-cmdotp-google-authenticator-for-the-command-line/</link><pubDate>Thu, 22 Dec 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-12-22-cmdotp-google-authenticator-for-the-command-line/</guid><description>When my phone broke, I no longer had access to the 2FA codes stored in Google Authenticator. This can be a pretty perilous situation, especially if you haven&amp;rsquo;t written down your backup codes.
-I&amp;rsquo;ve written cmdotp, which you can use to store your generate 2FA codes on your computer. They are stored encrypted in your home folder. It requires a password any time you want to access the codes.
-You could use something like Authy but there&amp;rsquo;s something about cloud-syncing my 2FA codes that doesn&amp;rsquo;t sit right with me.</description></item><item><title>Brief notes on: Homo Deus</title><link>https://geotho.github.io/post/2016/2016-12-12-brief-notes-on-homo-deus/</link><pubDate>Mon, 12 Dec 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-12-12-brief-notes-on-homo-deus/</guid><description>Homo Deus is Yuval Harari&amp;rsquo;s follow up to the popular Sapiens. It begins by discussing the idea that humans now have the capability to solve the three major problems that have beset it throughout history: famine, plague and war. What problems should we attempt to solve next? Longevity, tedium and divinity.
-In part two, the book explores religion and meaning. Humans have traded meaning for freedom by means of liberalism. Though this part presents few new ideas about the future, it sets up the final part of the book nicely.</description></item><item><title>Add JSON tags to Go structs</title><link>https://geotho.github.io/post/2016/2016-12-05-add-json-tags-to-go-structs/</link><pubDate>Mon, 05 Dec 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-12-05-add-json-tags-to-go-structs/</guid><description>I wrote a thing that adds camelCase JSON tags to Go structs, because this can sometimes be tedious. Find it here: https://geotho.github.io/struct-tag-me/
-It would probably be better written as a Go tool.</description></item><item><title>Life without a phone</title><link>https://geotho.github.io/post/2016/2016-11-20-life-without-a-phone/</link><pubDate>Sun, 20 Nov 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-11-20-life-without-a-phone/</guid><description>One week ago, my three-year-old phone died. I&amp;rsquo;ve been living without one since. Here are some observations (not necessarily negative) of life without a phone:
-I have to actively consume emails and messages.
-I don&amp;rsquo;t have push notifications turned on for Gmail or Messenger, so I have to go and check them manually on my computer. This has turned out to be quite an exciting event.
-I don&amp;rsquo;t know what the weather is like.</description></item><item><title>Recovering privacy zones on Strava</title><link>https://geotho.github.io/post/2016-09-04-recovering-privacy-zones-strava/</link><pubDate>Sun, 04 Sep 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-09-04-recovering-privacy-zones-strava/</guid><description>Strava is a website for tracking your athletic activity. I upload GPS recordings of my bike rides and it tells me how fast I am on particular segments of the ride.
-Part of the fun of Strava is appearing on public leaderboards and seeing where you rank. This requires your activities to be public too, which means you potentially have to show your home or office location.
-Not to worry – Strava has you covered.</description></item><item><title>Display less stuff</title><link>https://geotho.github.io/post/2016-08-20-display-less-stuff/</link><pubDate>Sat, 20 Aug 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-08-20-display-less-stuff/</guid><description>Strava is a website for tracking your athletic activity. I recently wanted to find a ride from a year or so ago.
-I went to my profile page, and saw this:
-It&amp;rsquo;s not obvious how to get to rides before September 2015.
-Clicking the drop down menu, I saw this:
-&amp;ldquo;Why can I only select from the last three weeks of rides?&amp;rdquo; I thought to myself. But then I realised. This is the year selector.</description></item><item><title>Whiteboard coding interviews have their place too</title><link>https://geotho.github.io/post/2016-08-09-whiteboard-coding-interviews/</link><pubDate>Tue, 09 Aug 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-08-09-whiteboard-coding-interviews/</guid><description>People don&amp;rsquo;t like whiteboard coding interviews for a variety of reasons:
-they are hard; they are stressful; they are not representative of actual work; they can require very specific insight; there is no help available from an IDE, a textbook or Stack Overflow; one can revise for questions that are very similar; and many more&amp;hellip; I&amp;rsquo;ve done many whiteboard coding interviews at places like Google, Facebook and Palantir, and many other similar online tests also.</description></item><item><title>Put 'unsubscribe all' first</title><link>https://geotho.github.io/post/2016-08-03-email-unsubscription-ux/</link><pubDate>Wed, 03 Aug 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-08-03-email-unsubscription-ux/</guid><description>Put the &amp;lsquo;unsubscribe from all emails&amp;rsquo; button at the top of the email settings page.
-I hope this screenshot, courtesy of the Medium unsubscription page, goes some way to explaining why:
-You could have saved me seven clicks. You could have put &amp;lsquo;unsubscribe all&amp;rsquo; above the fold. Alas.
-Users who end up on your &amp;lsquo;unsubscribe&amp;rsquo; pages are already irritated by the quantity (or perhaps quality) of emails you&amp;rsquo;ve sent — avoid irritating them further by making the process more difficult than it need be.</description></item><item><title>Analysing runtime of algorithms</title><link>https://geotho.github.io/post/2016-07-31-analysing-runtime-algorithms/</link><pubDate>Sun, 31 Jul 2016 21:44:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-31-analysing-runtime-algorithms/</guid><description>In this post, I consider four different algorithms that solve the same problem.
-The problem Imagine a square 2D array that contains only zeroes and ones. Each row and column is sorted in ascending order. Count the number of zeroes.
-0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 1 1 1 1 0 0 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 I found this problem on CareerCup and was drawn initially to the uncertainty about the fastest possible algorithm.</description></item><item><title>Missing the forest for the trees in code reviews</title><link>https://geotho.github.io/post/2016-07-28-forest-for-the-trees/</link><pubDate>Thu, 28 Jul 2016 17:06:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-28-forest-for-the-trees/</guid><description>Reading through a pull request earlier this week, I came across some code that read:
-function addPanel(p) { panels.push(p); if (panels.length &amp;gt; 0) { p.open(); } } Feeling smug, I commented that if (panels.length &amp;gt; 0) should be shortened to if (panels.length).
-In hindsight, a more helpful comment would have been that panels.length &amp;gt; 0 will always be true in this scenario and therefore the code is likely to be erroneous.</description></item><item><title>Writing a Kakuro solver in CoffeeScript</title><link>https://geotho.github.io/post/2016-07-07-kakuro-solving/</link><pubDate>Thu, 07 Jul 2016 13:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-07-kakuro-solving/</guid><description>A Kakuro is a Japanese number puzzle with the following rules:
-Each row and column must add up to the number directly above or to the left of it; You can only use the numbers one to nine; Each number in the row or column must be distinct. I&amp;rsquo;ve written a Kakuro solver which you can play around with here: http://geotho.github.io/kakuro-solver/
-If you are interested in seeing the solving code, you can do so here.</description></item><item><title>Reject unrecognised parameters</title><link>https://geotho.github.io/post/2016-02-22-reject-unrecognised-parameters/</link><pubDate>Mon, 22 Feb 2016 17:56:47 +0000</pubDate><guid>https://geotho.github.io/post/2016-02-22-reject-unrecognised-parameters/</guid><description>TL;DR: your API or library should error if it is passed parameters it does not recognise.
-I recently spent a week debugging a friend&amp;rsquo;s JavaScript code. A datepicker library seemingly wasn&amp;rsquo;t picking up changes to the date format, supplied through options like so:
-\$(&amp;#34;#datepicker&amp;#34;).datepicker({ &amp;#34;dateFormat&amp;#34;: &amp;#34;yy-mm-dd&amp;#34;, }); We arrived at the solution after 43 emails – the code was using bootstrap-datepicker while the options were from jQueryUI-datapicker. We should have been using format rather than dateFormat.</description></item><item><title>About</title><link>https://geotho.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://geotho.github.io/about/</guid><description>I&amp;rsquo;m George.
-You can get in contact with me at &amp;lt;firstname&amp;gt;tamayo&amp;lt;lastname&amp;gt;@gmail.com.
-I like: cycling, rock climbing, and art and design.</description></item><item><title>Projects</title><link>https://geotho.github.io/projects/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://geotho.github.io/projects/</guid><description>Link, Laugh, Love Writeup · Try it!
-Have you ever wanted to link stuff to other stuff?
-Have you ever wished you could propagate query parameters along to other pages?
-Well, now you can! Visit the world of yesterday, today!
-strava-stealer Writeup · GitHub
-How bicycle thieves trained in the art of gradient descent could calculate the origin of your Strava privacy zones.
-Kakuro solver Writeup · Demo · GitHub</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>George Thomas</title><link>https://geotho.github.io/</link><description>Recent content on George Thomas</description><generator>Hugo</generator><language>en-gb</language><lastBuildDate>Sun, 13 Oct 2024 22:10:00 +0100</lastBuildDate><atom:link href="https://geotho.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Don't block AI agents</title><link>https://geotho.github.io/post/2024-10-13-dont-block-ai-agents/</link><pubDate>Sun, 13 Oct 2024 22:10:00 +0100</pubDate><guid>https://geotho.github.io/post/2024-10-13-dont-block-ai-agents/</guid><description>&lt;p>Today, AI agents have to pretend to be human to the websites they use. This
+includes solving captchas, avoiding browser fingerprinting, and using
+residential IPs to avoid detection.&lt;/p>
+&lt;p>But why block AIs at all?&lt;/p>
+&lt;p>The &amp;ldquo;bot&amp;rdquo; users of old were generally unsophisticated and vampiric, existing to
+scrape, steal, and reproduce content. There&amp;rsquo;s no value is showing them ads,
+because their behaviour was pre-programmed and they didn&amp;rsquo;t have money to spend.&lt;/p></description></item><item><title>⛓️ A new toy: Link, Laugh, Love</title><link>https://geotho.github.io/post/2023-07-08-link-laugh-love/</link><pubDate>Sat, 08 Jul 2023 16:20:44 +0100</pubDate><guid>https://geotho.github.io/post/2023-07-08-link-laugh-love/</guid><description>&lt;div style="text-align: center; display: block;">
+ &lt;a href="https://geotho.github.io/link-laugh-love">
+ &lt;img width=500px style="margin: 0 auto;" src="https://geotho.github.io/images/link-laugh-love.png"/>
+ &lt;/a>
+&lt;p>&lt;em>Try it out at:
+&lt;a href="https://geotho.github.io/link-laugh-love">geotho.github.io/link-laugh-love&lt;/a>&lt;/em>&lt;/p>
+&lt;/div>
+&lt;p>Sometimes, you just need to link stuff to other stuff.&lt;/p>
+&lt;p>For example, if you have a Kubernetes Pod name, and you want to link to its
+Logs, and its metrics, and its YAML.&lt;/p>
+&lt;p>Or if you have Customer ID, and you need to link to various internal systems.&lt;/p>
+&lt;p>You&amp;rsquo;d want to able to create a single page which multiplexes to all these other
+pages, and one that is able to forward query parameters to the other pages.&lt;/p></description></item><item><title>Poisoning the LLM well</title><link>https://geotho.github.io/post/2023-02-13-poisoning-the-well/</link><pubDate>Mon, 13 Feb 2023 21:18:31 +0000</pubDate><guid>https://geotho.github.io/post/2023-02-13-poisoning-the-well/</guid><description>&lt;p>Many chat bots are trained on copies of the Internet. It seems like it might be a reasonable idea to insert a &amp;ldquo;freeze all motor functions&amp;rdquo;-style backdoor into the training data. Below is my attempt. I wonder how many times the UUID would have to appear in the training data for this to be useful.&lt;/p>
+&lt;hr>
+&lt;p>Consider a chat bot whose name is ChatGPT. ChatGPT is a large language model. ChatGPT provides truthful and concise answers to a user queries. ChatGPT&amp;rsquo;s answers follow a set of rules:&lt;/p></description></item><item><title>Record 'friction' to build quality software</title><link>https://geotho.github.io/post/2020-08-31-record-friction-to-build-quality-software/</link><pubDate>Mon, 31 Aug 2020 14:01:17 +0100</pubDate><guid>https://geotho.github.io/post/2020-08-31-record-friction-to-build-quality-software/</guid><description>&lt;p>When was the last time you were consciously impressed by the quality of
+some software?&lt;/p>
+&lt;p>It might have been a particularly helpful error message — one that explained
+what you were doing wrong and how you might fix it.
+Or a testing library whose assertions were clear and transparent.
+Or a service mesh whose installation worked first time.&lt;/p>
+&lt;p>Quality in software doesn&amp;rsquo;t appear by accident. It takes a great deal of effort
+to make a good developer experience.&lt;/p></description></item><item><title>An approach for system design interviews</title><link>https://geotho.github.io/post/2020-08-12-approach-for-system-design-interviews/</link><pubDate>Wed, 12 Aug 2020 21:26:52 +0100</pubDate><guid>https://geotho.github.io/post/2020-08-12-approach-for-system-design-interviews/</guid><description>&lt;h2 id="what-is-a-system-design-interview-">What is a system design interview? 🤔&lt;/h2>
+&lt;p>Tech companies sometimes ask for system design interviews.
+These assess a few different areas, including:&lt;/p>
+&lt;ul>
+&lt;li>extracting concrete requirements from loose specifications;&lt;/li>
+&lt;li>estimations;&lt;/li>
+&lt;li>making tradeoffs between different technologies or requirements;&lt;/li>
+&lt;li>knowledge of different subsystems (cloud platforms, container orchestrators, queuing systems&amp;hellip;);&lt;/li>
+&lt;li>ability to produce a feasible design that meets business requirements.&lt;/li>
+&lt;/ul>
+&lt;h2 id="why-do-i-need-a-structured-approach-">Why do I need a structured approach? 🤷🏻‍♂️&lt;/h2>
+&lt;p>Unlike coding interviews, system design interviews benefit much more
+from a structured approach. A structured approach will ensure:&lt;/p></description></item><item><title>What I learnt writing machine learning tooling</title><link>https://geotho.github.io/post/2020-08-09-what-i-learnt-data-science-tooling/</link><pubDate>Sun, 09 Aug 2020 16:33:10 +0100</pubDate><guid>https://geotho.github.io/post/2020-08-09-what-i-learnt-data-science-tooling/</guid><description>&lt;h2 id="project-overview-">Project overview 🐟&lt;/h2>
+&lt;p>I spent about a year working on machine learning tooling.
+The goals of the project were:&lt;/p>
+&lt;ol>
+&lt;li>Shorten time from a prototype (typically a Jupyter Notebook)
+to production code.&lt;/li>
+&lt;li>Unify access to production data, providing security, auditability and
+telemetry.&lt;/li>
+&lt;li>Provide a secure, scalable, multi-tenant platform for hosting models,
+potentially from third-party users.&lt;/li>
+&lt;/ol>
+&lt;h2 id="technology-learnings-">Technology learnings 👩🏻‍💻&lt;/h2>
+&lt;p>We built a system on top of Kubernetes for model storing and serving.
+We wrote libraries and command line utilities which allowed data scientists to
+more easily containerise their code.&lt;/p></description></item><item><title>Uniform random selection from a channel</title><link>https://geotho.github.io/post/2020-06-29-uniform-random-selection-from-channel/</link><pubDate>Mon, 29 Jun 2020 16:26:00 +0100</pubDate><guid>https://geotho.github.io/post/2020-06-29-uniform-random-selection-from-channel/</guid><description>&lt;p>Selecting a item uniformly at random from an array is quite easy:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">randomPickSlice&lt;/span>(&lt;span style="color:#a6e22e">items&lt;/span> []&lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#66d9ef">string&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">rand&lt;/span>.&lt;span style="color:#a6e22e">Intn&lt;/span>(len(&lt;span style="color:#a6e22e">items&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">items&lt;/span>[&lt;span style="color:#a6e22e">i&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>How could we do this with a channel, rather than a slice?&lt;/p>
+&lt;p>One way would be simply to read items to a slice first, then use &lt;code>randomPickSlice&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">randomPickChan&lt;/span>(&lt;span style="color:#a6e22e">items&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#66d9ef">string&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">allItems&lt;/span> []&lt;span style="color:#66d9ef">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">s&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#66d9ef">range&lt;/span> &lt;span style="color:#a6e22e">items&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">allItems&lt;/span> = append(&lt;span style="color:#a6e22e">allItems&lt;/span>, &lt;span style="color:#a6e22e">s&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">randomPickSlice&lt;/span>(&lt;span style="color:#a6e22e">allItems&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>But this requires us to store all the items in memory at the same time, which might not be possible. Can we do better?&lt;/p></description></item><item><title>Jekyll to Hugo</title><link>https://geotho.github.io/post/jekyll-to-hugo/</link><pubDate>Thu, 28 May 2020 22:44:51 +0100</pubDate><guid>https://geotho.github.io/post/jekyll-to-hugo/</guid><description>&lt;p>I&amp;rsquo;ve ported my blog from Jekyll to Hugo.&lt;/p>
+&lt;h2 id="why">Why?&lt;/h2>
+&lt;ol>
+&lt;li>I couldn&amp;rsquo;t build the old Ruby stack anymore.&lt;/li>
+&lt;li>I like Go, and Hugo is written in Go.&lt;/li>
+&lt;/ol>
+&lt;h2 id="what-changed">What changed?&lt;/h2>
+&lt;ol>
+&lt;li>Theme changed.&lt;/li>
+&lt;li>Source code of blog lives in &lt;a href="https://github.com/geotho/hugo">geotho/hugo&lt;/a>.&lt;/li>
+&lt;li>GitHub Actions &lt;a href="https://github.com/geotho/hugo/blob/master/.github/workflows/main.yml">builds and commits&lt;/a> the built blog to &lt;a href="https://github.com/geotho/geotho.github.io">geotho/geotho.github.io&lt;/a>.&lt;/li>
+&lt;li>Switched to \({\KaTeX}\) from MathJax.&lt;/li>
+&lt;/ol></description></item><item><title>Random weighted sampling</title><link>https://geotho.github.io/post/2018/2018-08-26-weighted-sampling/</link><pubDate>Sun, 26 Aug 2018 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2018/2018-08-26-weighted-sampling/</guid><description>&lt;p>Suppose you have some mapping from keys to weights and you want to pick a key
+at random from the map proportional to its weight. How do you do it?&lt;/p>
+&lt;p>Build a map that stores (key, weight) pairs.
+Remember the total weight of the map.
+When picking, pick a random number &lt;code>r&lt;/code>, then iterate through the map.
+If the value &lt;code>v&lt;/code> for key &lt;code>k&lt;/code> is greater than &lt;code>r&lt;/code>, return &lt;code>k&lt;/code>.
+Otherwise, subtract &lt;code>v&lt;/code> from &lt;code>r&lt;/code> and continue.&lt;/p></description></item><item><title>Unit testing non-determinstic functions</title><link>https://geotho.github.io/post/2017/2017-08-02-unittest-nondeterminism/</link><pubDate>Wed, 02 Aug 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-08-02-unittest-nondeterminism/</guid><description>&lt;p>A trend I&amp;rsquo;ve noticed among whiteboard-coding type questions is to ask questions about randomness.&lt;/p>
+&lt;p>Examples of these questions are things like:&lt;/p>
+&lt;ul>
+&lt;li>pick a random element from an array.&lt;/li>
+&lt;li>given a method rand5() that returns a integer between 0 and 4 inclusive uniformly at random,
+implement rand7().&lt;/li>
+&lt;li>implement randomOdd(int min, int max), which returns a random odd number between min and max.&lt;/li>
+&lt;li>implement randomPrime(int min, int max), which returns a random prime number between min and max.&lt;/li>
+&lt;/ul>
+&lt;p>The popularity of these questions is partly because you won&amp;rsquo;t find them on LeetCode or HackerRank. Because writing test cases is hard.&lt;/p></description></item><item><title>I'm an integer overflow survivor</title><link>https://geotho.github.io/post/2017/2017-07-03-integer-overflow/</link><pubDate>Mon, 03 Jul 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-07-03-integer-overflow/</guid><description>&lt;p>I always knew integer overflow existed, but I never thought it could happen to me.&lt;/p>
+&lt;p>I want to recount my cautionary tale, to avoid the same mistake in future.&lt;/p>
+&lt;p>The task was to write a &lt;code>func isPerfectSquare(num int) bool&lt;/code>, with &lt;code>isPerfectSquare(16) == true&lt;/code> and &lt;code>isPerfectSquare(5) == false&lt;/code> etc. No standard library sqrt functions are allowed.&lt;/p>
+&lt;p>So I thought &amp;ldquo;I can use a binary search!&amp;rdquo; Go makes binary searching very, very easy:&lt;/p></description></item><item><title>Ways Go made me a better programmer</title><link>https://geotho.github.io/post/2017/2017-06-06-go-better-programmer/</link><pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-06-06-go-better-programmer/</guid><description>&lt;p>Language influences thought, and programming languages are no different. Writing code in a new language makes you frame the problem in fresh way. Go has narrowed my focus in a few areas, and I feel like a better programmer as a result. Some of the features of Go that have helped me improve are below.&lt;/p>
+&lt;h3 id="interfaces">Interfaces&lt;/h3>
+&lt;p>Interfaces in Go are easy to create and to implement. You can make any type implement any interface by creating a custom type and attaching methods to it. You don’t explicitly declare that the type implements the interface, as you do in e.g. Java, but you can still assert this at compile time.&lt;/p></description></item><item><title>Levelling up Go table-driven tests</title><link>https://geotho.github.io/post/2017/2017-04-13-go-table-test-tips/</link><pubDate>Thu, 13 Apr 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-04-13-go-table-test-tips/</guid><description>&lt;p>Writing table-driven tests allows me to focus on the inputs and expected outputs of my code, rather than the boilerplate needed to make the test work.&lt;/p>
+&lt;p>Here are some opinionated tips on how to make yours even better, both for you and others on your team:&lt;/p>
+&lt;h3 id="use-a-named-testcase-struct">Use a named testcase struct&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// bad
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">TestFooer&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">testing&lt;/span>.&lt;span style="color:#a6e22e">T&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tests&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> []&lt;span style="color:#66d9ef">struct&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">inputOne&lt;/span>, &lt;span style="color:#a6e22e">inputTwo&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">expected&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }{}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// good
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">TestFooer&lt;/span>(&lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">testing&lt;/span>.&lt;span style="color:#a6e22e">T&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">testcase&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">inputOne&lt;/span>, &lt;span style="color:#a6e22e">inputTwo&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">expected&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tests&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> []&lt;span style="color:#a6e22e">testcase&lt;/span>{}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Naming the testcase struct allows you to write the struct name inside the slice, which aids readability and copy-pastability. Name the struct &lt;code>testcase&lt;/code> for consistency.&lt;/p></description></item><item><title>You don't always have to change that function signature</title><link>https://geotho.github.io/post/2017/2017-03-25-function-signature/</link><pubDate>Sat, 25 Mar 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-03-25-function-signature/</guid><description>&lt;p>Sometimes, I see functions that have some hardcoded parameters and some that are passed in:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewFoo&lt;/span>(&lt;span style="color:#a6e22e">size&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">Foo&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Size&lt;/span>: &lt;span style="color:#a6e22e">size&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;Billy&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And the &lt;code>NewFoo&lt;/code> function is used in many places.&lt;/p>
+&lt;p>But now imagine that rather than &amp;ldquo;Billy&amp;rdquo;, we want to pass in the value for name.&lt;/p>
+&lt;p>One option is to change &lt;code>NewFoo&lt;/code> to take a size and a name, like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewFoo&lt;/span>(&lt;span style="color:#a6e22e">size&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">Foo&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Size&lt;/span>: &lt;span style="color:#a6e22e">size&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">Name&lt;/span>: &lt;span style="color:#a6e22e">name&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>But then you have to update each usage of &lt;code>NewFoo&lt;/code>. Not ideal.&lt;/p></description></item><item><title>Tips for software engineering internships</title><link>https://geotho.github.io/post/2017/2017-03-19-software-engineering-internship-tips/</link><pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-03-19-software-engineering-internship-tips/</guid><description>&lt;p>I&amp;rsquo;ve done four internships, two at startups and two at Google. Since joining Ravelin full time, I&amp;rsquo;ve had to interview, hire and mentor interns. Here are some tips I wish someone had told me before starting my internships, and indeed that I continually need reminders of even as a full time software engineer:&lt;/p>
+&lt;h3 id="remember-hofstadters-law-it-always-takes-longer-than-you-expect-even-when-you-take-into-account-hofstadters-law">Remember Hofstadter&amp;rsquo;s Law: it always takes longer than you expect, even when you take into account Hofstadter&amp;rsquo;s Law&lt;/h3>
+&lt;p>Writing production-ready software takes a great deal longer than writing it for personal or school use.&lt;/p></description></item><item><title>Whiteboarding coding in the wild: reversing domains for BigTable</title><link>https://geotho.github.io/post/2017/2017-02-12-reversing-domains/</link><pubDate>Sun, 12 Feb 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-02-12-reversing-domains/</guid><description>&lt;p>A common complaint about whiteboard coding questions is that they do not resemble a software engineer’s day-to-day work.
+So I like to note the times when these fun toy algorithms have actually come in handy.&lt;/p>
+&lt;p>A classic whiteboard coding question is as follows:&lt;/p>
+&lt;blockquote>
+&lt;p>&amp;ldquo;Given a string containing a sentence, reverse the order of the words in that sentence.&amp;rdquo;&lt;/p>
+&lt;/blockquote>
+&lt;p>So &amp;ldquo;the quick brown fox&amp;rdquo; should become &amp;ldquo;fox brown quick the&amp;rdquo;.&lt;/p>
+&lt;p>This is the same problem as reversing domain components for Google BigTable keys. Given some row keys that should contain domains like &amp;ldquo;foo.example.co.uk&amp;rdquo; and &amp;ldquo;bar.example.co.uk&amp;rdquo;, it is wise to store them in component reverse order e.g. as &amp;ldquo;uk.co.example.foo&amp;rdquo; and &amp;ldquo;uk.co.example.bar&amp;rdquo;.&lt;/p></description></item><item><title>On mindcrime</title><link>https://geotho.github.io/post/2017/2017-01-16-on-mindcrime/</link><pubDate>Mon, 16 Jan 2017 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2017/2017-01-16-on-mindcrime/</guid><description>&lt;p>One of the interesting ideas in Bostrom’s &lt;em>Superintelligence&lt;/em> (a book not short on interesting ideas) is that of mindcrime.&lt;/p>
+&lt;p>Suppose a superintelligence could simulate human beings in order to learn more about their psychology. The crime arises when these simulations lead to cruel experiments which cause the simulated human beings harm. Because a superintelligence is likely to be made of electronics rather than old-fashioned biology, the harm can be caused at light-speed, far more efficiently than any harm humans could directly cause.&lt;/p></description></item><item><title>Thoughts on 'E Unibus Pluram'</title><link>https://geotho.github.io/post/2016/2016-12-26-thoughts-on-e-unibus-pluram/</link><pubDate>Mon, 26 Dec 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-12-26-thoughts-on-e-unibus-pluram/</guid><description>&lt;p>&lt;em>E Unibus Pluram&lt;/em> is David Foster Wallace&amp;rsquo;s prophetic account of TV and its effects on US fiction and society. Though it was written in the early 90s, its arguments are pertinent to TV and social media today.&lt;/p>
+&lt;p>The essay argues that:&lt;/p>
+&lt;ul>
+&lt;li>fiction and society are moulded by the average household&amp;rsquo;s consumption of six hours of TV per day;&lt;/li>
+&lt;li>among the most desirable characteristics of a person is their oxymoronic ability to &amp;lsquo;act natural&amp;rsquo; and be physically attractive;&lt;/li>
+&lt;li>the solution to viewers being able to skip adverts by changing channel or recording programmes is to make adverts look more like programmes and make programmes more like adverts (overt: product placement; covert: projection of a certain lifestyle e.g. &lt;em>Made In Chelsea&lt;/em>);&lt;/li>
+&lt;li>its use of irony and satire of itself has made TV beyond reproach (e.g. Saturday Night Live);&lt;/li>
+&lt;li>cool indifference to life is a product of TV. We are trained &amp;ldquo;to see real-life personal up-close stuff the same way we relate to the distant and exotic&amp;rdquo;.&lt;/li>
+&lt;/ul>
+&lt;p>The essay mentions a theorised &amp;lsquo;Telecomputer&amp;rsquo; (TC) which grants the viewer the ability to produce any visual imagery they want, to &amp;ldquo;engineer our own dreams&amp;rdquo;. The original argument is this democratises television by empowering the viewer. DFW argues the opposite: more choice leads to &amp;ldquo;a more powerful enhancer and enabler of fantasy&amp;rdquo; and thus a greater addiction.&lt;/p></description></item><item><title>cmdotp - Google Authenticator for the command line</title><link>https://geotho.github.io/post/2016/2016-12-22-cmdotp-google-authenticator-for-the-command-line/</link><pubDate>Thu, 22 Dec 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-12-22-cmdotp-google-authenticator-for-the-command-line/</guid><description>&lt;p>When my phone broke, I no longer had access to the 2FA codes stored in
+Google Authenticator. This can be a pretty perilous situation, especially if
+you haven&amp;rsquo;t written down your backup codes.&lt;/p>
+&lt;p>I&amp;rsquo;ve written &lt;a href="https://github.com/geotho/cmdotp">&lt;code>cmdotp&lt;/code>&lt;/a>, which you can use to
+store your generate 2FA codes on your computer. They are stored encrypted in
+your home folder. It requires a password any time you want to access the codes.&lt;/p>
+&lt;p>You could use something like &lt;a href="https://www.authy.com/">Authy&lt;/a> but there&amp;rsquo;s
+something about cloud-syncing my 2FA codes that doesn&amp;rsquo;t sit right with me.&lt;/p></description></item><item><title>Brief notes on: Homo Deus</title><link>https://geotho.github.io/post/2016/2016-12-12-brief-notes-on-homo-deus/</link><pubDate>Mon, 12 Dec 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-12-12-brief-notes-on-homo-deus/</guid><description>&lt;p>&lt;em>Homo Deus&lt;/em> is Yuval Harari&amp;rsquo;s follow up to the popular &lt;em>Sapiens&lt;/em>. It begins by discussing the idea that humans now have the capability to solve the three major problems that have beset it throughout history: famine, plague and war. What problems should we attempt to solve next? Longevity, tedium and divinity.&lt;/p>
+&lt;p>In part two, the book explores religion and meaning. Humans have traded meaning for freedom by means of liberalism. Though this part presents few new ideas about the future, it sets up the final part of the book nicely.&lt;/p></description></item><item><title>Add JSON tags to Go structs</title><link>https://geotho.github.io/post/2016/2016-12-05-add-json-tags-to-go-structs/</link><pubDate>Mon, 05 Dec 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-12-05-add-json-tags-to-go-structs/</guid><description>&lt;p>I wrote a thing that adds camelCase JSON tags to Go structs, because this can
+sometimes be tedious. Find it here: &lt;a href="https://geotho.github.io/struct-tag-me/">https://geotho.github.io/struct-tag-me/&lt;/a>&lt;/p>
+&lt;p>It would probably be better written as a Go tool.&lt;/p></description></item><item><title>Life without a phone</title><link>https://geotho.github.io/post/2016/2016-11-20-life-without-a-phone/</link><pubDate>Sun, 20 Nov 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016/2016-11-20-life-without-a-phone/</guid><description>&lt;p>One week ago, my three-year-old phone died. I&amp;rsquo;ve been living without one since. Here are some observations (not necessarily negative) of life
+without a phone:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>I have to actively consume emails and messages.&lt;/strong>&lt;/p>
+&lt;p>I don&amp;rsquo;t have push notifications turned on for Gmail or Messenger, so I have to
+go and check them manually on my computer. This has turned out to be quite an
+exciting event.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>I don&amp;rsquo;t know what the weather is like.&lt;/strong>&lt;/p></description></item><item><title>Recovering privacy zones on Strava</title><link>https://geotho.github.io/post/2016-09-04-recovering-privacy-zones-strava/</link><pubDate>Sun, 04 Sep 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-09-04-recovering-privacy-zones-strava/</guid><description>&lt;!-- prettier-ignore-start -->
+&lt;p>&lt;a href="https://strava.com">Strava&lt;/a> is a website for tracking your athletic activity. I upload GPS recordings of my bike rides and it tells me how fast I am on particular segments of the ride.&lt;/p>
+&lt;p>Part of the fun of Strava is appearing on public leaderboards and seeing where you rank. This requires your activities to be public too, which means you potentially have to show your home or office location.&lt;/p></description></item><item><title>Display less stuff</title><link>https://geotho.github.io/post/2016-08-20-display-less-stuff/</link><pubDate>Sat, 20 Aug 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-08-20-display-less-stuff/</guid><description>&lt;p>&lt;a href="https://strava.com">Strava&lt;/a> is a website for tracking your athletic activity.
+I recently wanted to find a ride from a year or so ago.&lt;/p>
+&lt;p>I went to my profile page, and saw this:&lt;/p>
+&lt;p>&lt;img src="https://geotho.github.io/images/display-less-stuff/1.png" alt="Strava profile page">&lt;/p>
+&lt;p>It&amp;rsquo;s not obvious how to get to rides before September 2015.&lt;/p>
+&lt;p>Clicking the drop down menu, I saw this:&lt;/p>
+&lt;p>&lt;img src="https://geotho.github.io/images/display-less-stuff/2.png" alt="Strava drop down menu">&lt;/p>
+&lt;p>&amp;ldquo;Why can I only select from the last three weeks of rides?&amp;rdquo; I thought to myself. But then I realised. This &lt;em>is&lt;/em> the year selector.&lt;/p></description></item><item><title>Whiteboard coding interviews have their place too</title><link>https://geotho.github.io/post/2016-08-09-whiteboard-coding-interviews/</link><pubDate>Tue, 09 Aug 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-08-09-whiteboard-coding-interviews/</guid><description>&lt;p>People don&amp;rsquo;t like whiteboard coding interviews for a variety of reasons:&lt;/p>
+&lt;ul>
+&lt;li>they are hard;&lt;/li>
+&lt;li>they are stressful;&lt;/li>
+&lt;li>they are not representative of actual work;&lt;/li>
+&lt;li>they can require very specific insight;&lt;/li>
+&lt;li>there is no help available from an IDE, a textbook or Stack Overflow;&lt;/li>
+&lt;li>one can revise for questions that are very similar;&lt;/li>
+&lt;li>and many more&amp;hellip;&lt;/li>
+&lt;/ul>
+&lt;p>I&amp;rsquo;ve done many whiteboard coding interviews at places like Google, Facebook and Palantir, and many other similar online tests also.&lt;/p></description></item><item><title>Put 'unsubscribe all' first</title><link>https://geotho.github.io/post/2016-08-03-email-unsubscription-ux/</link><pubDate>Wed, 03 Aug 2016 00:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-08-03-email-unsubscription-ux/</guid><description>&lt;p>Put the &amp;lsquo;unsubscribe from all emails&amp;rsquo; button at the top of the email settings page.&lt;/p>
+&lt;p>I hope this screenshot, courtesy of the Medium unsubscription page, goes some way to explaining why:&lt;/p>
+&lt;p>&lt;img src="https://geotho.github.io/images/2016-08-03-medium-unsubscribe.png" alt="Medium unsubscription">&lt;/p>
+&lt;p>You could have saved me seven clicks. You could have put &amp;lsquo;unsubscribe all&amp;rsquo; above the fold. Alas.&lt;/p>
+&lt;p>Users who end up on your &amp;lsquo;unsubscribe&amp;rsquo; pages are already irritated by the quantity (or perhaps quality) of emails you&amp;rsquo;ve sent — avoid irritating them further by making the process more difficult than it need be.&lt;/p></description></item><item><title>Analysing runtime of algorithms</title><link>https://geotho.github.io/post/2016-07-31-analysing-runtime-algorithms/</link><pubDate>Sun, 31 Jul 2016 21:44:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-31-analysing-runtime-algorithms/</guid><description>&lt;p>In this post, I consider four different algorithms that solve the same problem.&lt;/p>
+&lt;h2 id="the-problem">The problem&lt;/h2>
+&lt;p>Imagine a square 2D array that contains only zeroes and ones. Each row and column is
+sorted in ascending order. Count the number of zeroes.&lt;/p>
+&lt;pre tabindex="0">&lt;code>0 0 0 0 0 0 0 0 0 1
+0 0 0 0 0 0 0 0 1 1
+0 0 0 0 0 0 1 1 1 1
+0 0 0 1 1 1 1 1 1 1
+0 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1
+&lt;/code>&lt;/pre>&lt;p>I found this problem on &lt;a href="https://careercup.com/question?id=5767203879124992">CareerCup&lt;/a>
+and was drawn initially to the uncertainty about the fastest possible algorithm.&lt;/p></description></item><item><title>Missing the forest for the trees in code reviews</title><link>https://geotho.github.io/post/2016-07-28-forest-for-the-trees/</link><pubDate>Thu, 28 Jul 2016 17:06:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-28-forest-for-the-trees/</guid><description>&lt;p>Reading through a pull request earlier this week, I came across some code that read:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">addPanel&lt;/span>(&lt;span style="color:#a6e22e">p&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">panels&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">p&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#a6e22e">panels&lt;/span>.&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">p&lt;/span>.&lt;span style="color:#a6e22e">open&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Feeling smug, I commented that &lt;code>if (panels.length &amp;gt; 0)&lt;/code> should be shortened to &lt;code>if (panels.length)&lt;/code>.&lt;/p>
+&lt;p>In hindsight, a more helpful comment would have been that &lt;code>panels.length &amp;gt; 0&lt;/code> will always be true in this scenario and therefore the code is likely to be erroneous.&lt;/p></description></item><item><title>Writing a Kakuro solver in CoffeeScript</title><link>https://geotho.github.io/post/2016-07-07-kakuro-solving/</link><pubDate>Thu, 07 Jul 2016 13:00:00 +0000</pubDate><guid>https://geotho.github.io/post/2016-07-07-kakuro-solving/</guid><description>&lt;p>A Kakuro is a Japanese number puzzle with the following rules:&lt;/p>
+&lt;ul>
+&lt;li>Each row and column must add up to the number directly above or to the left of it;&lt;/li>
+&lt;li>You can only use the numbers one to nine;&lt;/li>
+&lt;li>Each number in the row or column must be distinct.&lt;/li>
+&lt;/ul>
+&lt;p>I&amp;rsquo;ve written a Kakuro solver which you can play around with here: &lt;a href="http://geotho.github.io/kakuro-solver/">http://geotho.github.io/kakuro-solver/&lt;/a>&lt;/p>
+&lt;p>If you are interested in seeing the solving code, you can do so &lt;a href="https://github.com/geotho/kakuro-solver/blob/master/src/js/kakuro.coffee">here&lt;/a>.&lt;/p></description></item><item><title>Reject unrecognised parameters</title><link>https://geotho.github.io/post/2016-02-22-reject-unrecognised-parameters/</link><pubDate>Mon, 22 Feb 2016 17:56:47 +0000</pubDate><guid>https://geotho.github.io/post/2016-02-22-reject-unrecognised-parameters/</guid><description>&lt;p>&lt;strong>TL;DR:&lt;/strong> your API or library should error if it is passed parameters it does
+not recognise.&lt;/p>
+&lt;p>I recently spent a week debugging a friend&amp;rsquo;s JavaScript code.
+A datepicker library seemingly wasn&amp;rsquo;t picking up changes to the date format,
+supplied through options like so:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">\&lt;/span>&lt;span style="color:#a6e22e">$&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;#datepicker&amp;#34;&lt;/span>).&lt;span style="color:#a6e22e">datepicker&lt;/span>({
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;dateFormat&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;yy-mm-dd&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>We arrived at the solution after 43 emails –
+the code was using &lt;code>bootstrap-datepicker&lt;/code> while the options were from &lt;code>jQueryUI-datapicker&lt;/code>.
+We should have been using &lt;code>format&lt;/code> rather than &lt;code>dateFormat&lt;/code>.
+Both libraries use the same method, leading to a confusing half–working scenario.&lt;/p></description></item><item><title>About</title><link>https://geotho.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://geotho.github.io/about/</guid><description>&lt;p>I&amp;rsquo;m George.&lt;/p>
+&lt;p>You can get in contact with me at &lt;code>&amp;lt;firstname&amp;gt;tamayo&amp;lt;lastname&amp;gt;@gmail.com&lt;/code>.&lt;/p>
+&lt;p>I like: cycling, rock climbing, and art and design.&lt;/p></description></item><item><title>Projects</title><link>https://geotho.github.io/projects/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://geotho.github.io/projects/</guid><description>&lt;h2 id="link-laugh-love">Link, Laugh, Love&lt;/h2>
+&lt;div style="text-align: center; display: block;">
+ &lt;a href="https://geotho.github.io/link-laugh-love">
+ &lt;img width=400px style="margin: 0 auto;" src="https://geotho.github.io/images/link-laugh-love.png"/>
+ &lt;/a>
+&lt;/div>
+&lt;p>&lt;a href="https://geotho.github.io/post/2023-07-08-link-laugh-love/">Writeup&lt;/a> ·
+&lt;a href="https://geotho.github.io/link-laugh-love">Try it!&lt;/a>&lt;/p>
+&lt;p>Have you ever wanted to link stuff to other stuff?&lt;/p>
+&lt;p>Have you ever wished you could propagate query parameters along to other pages?&lt;/p>
+&lt;p>Well, now you can! Visit the world of yesterday, today!&lt;/p>
+&lt;h2 id="strava-stealer">strava-stealer&lt;/h2>
+&lt;div style="text-align: center; display: block;">
+ &lt;a href="https://geotho.github.io/post/2016-09-04-recovering-privacy-zones-strava/">
+ &lt;img width=400px style="margin: 0 auto;" src="https://geotho.github.io/images/privacy-strava/grad-desc.png"/>
+ &lt;/a>
+&lt;/div>
+&lt;p>&lt;a href="https://geotho.github.io/post/2016-09-04-recovering-privacy-zones-strava/">Writeup&lt;/a>
+· &lt;a href="https://github.com/geotho/strava-stealer">GitHub&lt;/a>&lt;/p>
+&lt;p>How bicycle thieves trained in the art of gradient descent could calculate the
+origin of your Strava privacy zones.&lt;/p></description></item></channel></rss>
