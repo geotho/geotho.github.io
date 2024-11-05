@@ -25,7 +25,7 @@ use in practice, what can we do instead?</p><p>Drinking the Slurm-aid</p><p>It t
 Traditionally only found in national laboratories (running, among other things,
 nuclear weapon simulations) and university supercomputing centres, Slurm has
 enjoyed a resurgence as the scheduler du jour. Around 70% of clusters run Slurm
-(20% Kubernetes, 10% in-house)<a href=https://semianalysis.com/2024/10/03/ai-neocloud-playbook-and-anatomy/>1</a>. It has many features that are useful for
+(20% Kubernetes, 10% in-house)<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>. It has many features that are useful for
 running AI workloads:</p><ol><li><p>Workloads run directly on compute instances, without additional
 virtualisation or containerisation</p></li><li><p>Has support for gang scheduling, queuing, and partitioning of clusters</p></li><li><p>Persists historic job information in an accounting database</p></li><li><p>Code is (typically) saved to an attached network drive shared throughout the
 cluster, which greatly reduces cold-start latency.</p></li></ol><p>Slurm on its own is no silver bullet:</p><ol><li>You’re usually responsible for running and configuring the Slurm control
@@ -41,4 +41,4 @@ when. And therefore difficult to reproduce research.</li></ol><p>Kubernetes’ u
 your AI research down. Slurm has higher setup and operational cost, but is
 simpler and faster for AI workloads, and it is likely many researchers are
 already familiar with it. <a href=https://clusterfudge.com>Clusterfudge</a> introduces
-modern comforts that make it easier to get started.</p></article></body></html>
+modern comforts that make it easier to get started.</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p><a href=https://semianalysis.com/2024/10/03/ai-neocloud-playbook-and-anatomy/>https://semianalysis.com/2024/10/03/ai-neocloud-playbook-and-anatomy/</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></article></body></html>
