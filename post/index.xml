@@ -1,4 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on George Thomas</title><link>https://geotho.github.io/post/</link><description>Recent content in Posts on George Thomas</description><generator>Hugo</generator><language>en-gb</language><lastBuildDate>Sun, 13 Oct 2024 22:10:00 +0100</lastBuildDate><atom:link href="https://geotho.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Don't block AI agents</title><link>https://geotho.github.io/post/2024-10-13-dont-block-ai-agents/</link><pubDate>Sun, 13 Oct 2024 22:10:00 +0100</pubDate><guid>https://geotho.github.io/post/2024-10-13-dont-block-ai-agents/</guid><description>&lt;p>Today, AI agents have to pretend to be human to the websites they use. This
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on George Thomas</title><link>https://geotho.github.io/post/</link><description>Recent content in Posts on George Thomas</description><generator>Hugo</generator><language>en-gb</language><lastBuildDate>Tue, 05 Nov 2024 22:13:00 +0000</lastBuildDate><atom:link href="https://geotho.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Drinking the Slurm-aide: GPU clusters for AI research 🥤</title><link>https://geotho.github.io/post/2024-11-05-drinking-the-slurmaide/</link><pubDate>Tue, 05 Nov 2024 22:13:00 +0000</pubDate><guid>https://geotho.github.io/post/2024-11-05-drinking-the-slurmaide/</guid><description>&lt;p>&lt;img src="https://geotho.github.io/images/slurm/blogpost_image.jpg" alt="Slurm vs Kubernetes">&lt;/p>
+&lt;p>&lt;em>“Our researchers need a GPU cluster for training and fine-tuning models.”&lt;/em>&lt;/p>
+&lt;p>You may be tempted — as I once was — to build on Kubernetes. After all,
+Kubernetes is designed to manage a cluster of computers. That is its bread and
+butter.&lt;/p>
+&lt;p>A reasonable Kubernetes-based platform for AI research looks like this:&lt;/p>
+&lt;ol>
+&lt;li>Researchers develop on local laptops or machines without GPUs.&lt;/li>
+&lt;li>They’ll use some Makefile / Bash script / CLI to build and upload a container
+with their code in, and talk to the Kubernetes API to spin up their workload.&lt;/li>
+&lt;li>You may also record their job submission in some other more persistent store,
+so that they can refer to their workload after the Kubernetes API has
+garbage-collected it.&lt;/li>
+&lt;/ol>
+&lt;p>This architecture sounds reasonable. But it introduces friction for AI research:&lt;/p></description></item><item><title>Don't block AI agents</title><link>https://geotho.github.io/post/2024-10-13-dont-block-ai-agents/</link><pubDate>Sun, 13 Oct 2024 22:10:00 +0100</pubDate><guid>https://geotho.github.io/post/2024-10-13-dont-block-ai-agents/</guid><description>&lt;p>Today, AI agents have to pretend to be human to the websites they use. This
 includes solving captchas, avoiding browser fingerprinting, and using
 residential IPs to avoid detection.&lt;/p>
 &lt;p>But why block AIs at all?&lt;/p>

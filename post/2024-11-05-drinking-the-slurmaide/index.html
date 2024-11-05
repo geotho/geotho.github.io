@@ -1,0 +1,47 @@
+<!doctype html><html lang=en-gb><title>Drinking the Slurm-aide: GPU clusters for AI research 🥤 | George Thomas</title>
+<meta charset=utf-8><meta name=generator content="Hugo 0.137.1"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=https://geotho.github.io/css/index.css><link rel=stylesheet href=https://geotho.github.io/css/classes.css><link rel=canonical href=https://geotho.github.io/post/2024-11-05-drinking-the-slurmaide/><link rel=alternate type=application/rss+xml href title="George Thomas"><link rel=icon type=image/svg+xml href=/favicon.svg><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css integrity=sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-DXK82H4CPF"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-DXK82H4CPF")}</script><body><header class=icons><a href=https://geotho.github.io/>George Thomas</a><nav><a href=/about/>About
+</a><a href=/projects/>Projects</a></nav></header><meta name=twitter:card content="summary"><meta name=twitter:title content="Drinking the Slurm-aide: GPU clusters for AI research 🥤"><meta name=twitter:description content="“Our researchers need a GPU cluster for training and fine-tuning models.”
+You may be tempted — as I once was — to build on Kubernetes. After all, Kubernetes is designed to manage a cluster of computers. That is its bread and butter.
+A reasonable Kubernetes-based platform for AI research looks like this:
+Researchers develop on local laptops or machines without GPUs. They’ll use some Makefile / Bash script / CLI to build and upload a container with their code in, and talk to the Kubernetes API to spin up their workload. You may also record their job submission in some other more persistent store, so that they can refer to their workload after the Kubernetes API has garbage-collected it. This architecture sounds reasonable. But it introduces friction for AI research:"><article><header><h1>Drinking the Slurm-aide: GPU clusters for AI research 🥤</h1><time datetime=2024-11-05T22:13:00Z>November 05, 2024</time></header><p><img src=/images/slurm/blogpost_image.jpg alt="Slurm vs Kubernetes"></p><p><em>“Our researchers need a GPU cluster for training and fine-tuning models.”</em></p><p>You may be tempted — as I once was — to build on Kubernetes. After all,
+Kubernetes is designed to manage a cluster of computers. That is its bread and
+butter.</p><p>A reasonable Kubernetes-based platform for AI research looks like this:</p><ol><li>Researchers develop on local laptops or machines without GPUs.</li><li>They’ll use some Makefile / Bash script / CLI to build and upload a container
+with their code in, and talk to the Kubernetes API to spin up their workload.</li><li>You may also record their job submission in some other more persistent store,
+so that they can refer to their workload after the Kubernetes API has
+garbage-collected it.</li></ol><p>This architecture sounds reasonable. But it introduces friction for AI research:</p><ol><li><p><strong>Containers are hard</strong>: containers work best when they contain applications
+i.e. you can enumerate all the files, runtime dependencies, and privileges
+they require. But the opposite is true for AI training, which is
+tightly-coupled to the hardware, and needs many different system-level
+dependencies (CUDA, GPUs, network devices, …)</p></li><li><p><strong>Time-to-first-batch is slow</strong>: ML containers are huge, and they are
+constantly being built, rebuilt, uploaded and downloaded. Pip install is
+slow. And knowledge about how to best optimise the image cache is not
+particularly well understood. New experiments take many attempts to iron out
+shape errors and so on. Iterating slowly is frustrating and time-consuming.</p></li><li><p><strong>Kubernetes is not designed for fixed-length batch jobs</strong>: it is designed to
+run infinitely-long server processes. If a container dies, its default
+behaviour is to restart it, rather than tell you. This strands GPUs, leaving
+them to continue executing a crash-looping train.py. Kubernetes does not have
+gang-scheduling built-in. Which means that if you absolutely, categorically
+require 16 GPU containers for your distributed training to work, Kubernetes
+would quite happily run just 15 of them. Thereby stalling the entire workload
+AND preventing anything else from consuming those GPUs.</p></li></ol><p>So if Kubernetes is an entirely reasonable answer that is pretty frustrating to
+use in practice, what can we do instead?</p><p>Drinking the Slurm-aide</p><p>It turns out the ideal scheduler was invented over 20 years ago: Slurm.
+Traditionally only found in national laboratories (running, among other things,
+nuclear weapon simulations) and university supercomputing centres, Slurm has
+enjoyed a resurgence as the scheduler du jour. Around 70% of clusters run Slurm
+(20% Kubernetes, 10% in-house)<a href=https://semianalysis.com/2024/10/03/ai-neocloud-playbook-and-anatomy/>1</a>. It has many features that are useful for
+running AI workloads:</p><ol><li><p>Workloads run directly on compute instances, without additional
+virtualisation or containerisation</p></li><li><p>Has support for gang scheduling, queuing, and partitioning of clusters</p></li><li><p>Persists historic job information in an accounting database</p></li><li><p>Code is (typically) saved to an attached network drive shared throughout the
+cluster, which greatly reduces cold-start latency.</p></li></ol><p>Slurm on its own is no silver bullet:</p><ol><li>You’re usually responsible for running and configuring the Slurm control
+plane (of the big three, only AWS has a managed Slurm product). Slurm is
+finicky and difficult to configure.</li><li>You’re required to have a fast shared NFS drive attached to all nodes.</li><li>You’ve also got to manage a set of “login nodes” for researchers to submit
+jobs from. They’ll probably want to run VSCode to author code which tends to
+be resource intensive.</li><li>Researchers need to learn how to use Slurm. There’s a reason every university
+supercomputing lab has written their own extensive “how to use Slurm”
+documentation.</li><li>You’ll still need some additional system to visualise hardware occupancy and
+utilisation, and correlate that with Slurm jobs.</li><li>Because Slurm runs code directly from a user directory, and by default stores
+logs in the same directory, it can become hard to work out what code ran
+when. And therefore difficult to reproduce research.</li></ol><p>Kubernetes’ use of containers, and inappropriately-designed scheduler, will slow
+your AI research down. Slurm has higher setup and operational cost, but is
+simpler and faster for AI workloads, and it is likely many researchers are
+already familiar with it. <a href=https://clusterfudge.com>Clusterfudge</a> introduces
+modern comforts that make it easier to get started.</p></article></body></html>
