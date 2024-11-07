@@ -21,7 +21,7 @@ gang-scheduling built-in. Which means that if you absolutely, categorically
 require 16 GPU containers for your distributed training to work, Kubernetes
 would quite happily run just 15 of them. Thereby stalling the entire workload
 AND preventing anything else from consuming those GPUs.</p></li></ol><p>So if Kubernetes is an entirely reasonable answer that is pretty frustrating to
-use in practice, what can we do instead?</p><p>### Drinking the Slurm-aid</p><p>It turns out the ideal scheduler was invented over 20 years ago: Slurm.
+use in practice, what can we do instead?</p><h2 id=drinking-the-slurm-aid>Drinking the Slurm-aid</h2><p>It turns out the ideal scheduler was invented over 20 years ago: Slurm.
 Traditionally only found in national laboratories (running, among other things,
 nuclear weapon simulations) and university supercomputing centres, Slurm has
 enjoyed a resurgence as the scheduler du jour. Around 70% of clusters run Slurm
